@@ -1,0 +1,27 @@
+.form {
+  max-width: 550px;
+  color: #26a69a;
+  border: #26a69a solid 2px;
+}
+
+.form form input {
+  border: #26a69a solid 1px;
+  border-radius: 10px !important;
+}
+
+.primary-pill {
+  background-color: #26a69a;
+  color: #ffffff;
+  border-radius: 50px;
+  border: none;
+  font-size: large;
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.primary-pill:hover {
+  background-color: #1c766d;
+}
