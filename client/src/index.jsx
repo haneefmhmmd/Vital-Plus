@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import App from './views/App';
+import App from "./App";
 
 const router = createHashRouter([
   {
     path: "/*",
-    element: <App />
+    element: <App />,
   },
 ]);
 
