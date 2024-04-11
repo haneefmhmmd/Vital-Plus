@@ -1,0 +1,63 @@
+@use "sass:map";
+$break-points: (
+  "tablet": 768px,
+  "tablet-lg": 1080px,
+);
+@mixin respond-below($break-point) {
+  @if map.has-key($break-points, $break-point) == true {
+    $break-point-val: map.get($break-points, $break-point);
+    @media (max-width: "#{$break-point-val - 1px}") {
+      @content;
+    }
+  } @else {
+    @error "Break-point #{$break-point} is part of the defined break-points";
+  }
+}
+
+@mixin respond-above($break-point) {
+  @if map.has-key($break-points, $break-point) {
+    $break-point-val: map.get($break-points, $break-point);
+    @media (min-width: $break-point-val) {
+      @content;
+    }
+  } @else {
+    @error "Break-point #{$break-point} is part of the defined break-points";
+  }
+}
+
+@mixin gradient-animation($isText: false, $isAnimatable: true) {
+  @if $isText {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  background-image: linear-gradient(to left, #1962cf 0%, #00ff00 100%);
+  @keyframes animatedText {
+    0% {
+      background-position: left;
+    }
+    100% {
+      background-position: right;
+    }
+  }
+}
+
+@mixin glassmorphic-bg($hover-effect: true) {
+  color: $secondary-color;
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  background-color: rgba(80, 80, 80, 0.29);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  box-shadow: $box-shadow-default;
+  transition: 0.2s linear;
+  @if $hover-effect {
+    @include respond-above(tablet) {
+      &:hover {
+        background: $bg-gradient;
+        box-shadow: $box-shadow-hover;
+      }
+    }
+  }
+}

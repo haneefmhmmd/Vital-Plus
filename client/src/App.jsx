@@ -1,20 +1,43 @@
-import "@fontsource/roboto/400.css";
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import "./assets/css/App.css";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import "./styles/index.scss";
+
+import Navbar from "./components/Navbar";
+import SideBar from "./components/SideBar";
+import Books from "./pages/Books";
+import Borrow from "./pages/Borrow";
 import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import Members from "./pages/Members";
+import Publishers from "./pages/Publishers";
 
 function App() {
+  const [isApp, setIsApp] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setIsApp(false);
+    } else {
+      setIsApp(true);
+    }
+  }, [location.pathname]);
+
   return (
-    <Routes>
-      <Route exact path="/" element={<Home />}></Route>
-
-      <Route path="/signin" element={<SignIn />}></Route>
-
-      <Route path="/signup" element={<SignUp />}></Route>
-    </Routes>
+    <>
+      <Navbar />
+      <main className="main-container">
+        {isApp && <SideBar />}
+        <section className="page-container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/books" element={<Books />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/publishers" element={<Publishers />} />
+            <Route path="/borrow" element={<Borrow />} />
+          </Routes>
+        </section>
+      </main>
+    </>
   );
 }
 

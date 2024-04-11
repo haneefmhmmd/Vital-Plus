@@ -1,0 +1,75 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: $tertiary-color;
+}
+
+html {
+  scroll-padding-top: 110px;
+  scroll-behavior: smooth;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  @include respond-below(tablet-lg) {
+    padding: 0 20px;
+  }
+}
+
+a {
+  text-decoration: underline;
+  color: #26a69a;
+}
+
+.link {
+  color: #26a69a;
+}
+
+.curson-blinker {
+  width: 3px;
+  height: 40px;
+  display: inline-block;
+  border-radius: 12px;
+  background-image: linear-gradient(to left, #1962cf 0%, #00ff00 100%);
+}
+
+.resize-img {
+  width: 200px;
+}
+
+.pill {
+  background-color: #26a69a;
+  color: #ffffff;
+  border-radius: 50px;
+  border: none;
+  width: 150px;
+  margin-top: 10px;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pill:hover {
+  background-color: $green-200;
+}
+
+.nav-bottom {
+  background-color: rgb(238, 238, 238);
+  color: #1c766d;
+}

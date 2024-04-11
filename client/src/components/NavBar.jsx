@@ -1,21 +1,22 @@
-import React from 'react';
-import Logo from '../assets/img/logofull.png';
-import LogoCompact from '../assets/img/logocfull.png';
-import { Link } from 'react-router-dom';
-import '../assets/css/NavBar.css';
+import React from "react";
 
-function NavBar() {
-
-    return (
-        <nav className="navbar shadow fixed-top">
-            <div className="container">
-                <Link className="navbar-brand" to="/">
-                    <img className="nav-logo" src={Logo} alt="Vital Plus Logo" />
-                    <img className="nav-logo-compact" src={LogoCompact} alt="Vital Plus Compact Logo" />
-                </Link>
-            </div>
-        </nav>
-    );
+export default function Navbar() {
+  return (
+    <nav className="v-navbar">
+      <div>
+        <a className="v-navbar-brand" href="/">
+          <img
+            className="v-nav-logo"
+            src="/images/logo/logofull.png"
+            height={32}
+          />
+        </a>
+        <ul className="v-navbar-nav">
+          <li className="v-nav-item">
+            <img src="/images/user.png" width="20" height="20" />
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
 }
-
-export default NavBar;

@@ -1,0 +1,25 @@
+.v-navbar {
+  padding: 12px 32px;
+  height: 56px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  box-shadow: $box-shadow-sm;
+  border-bottom: 1px solid $border-color;
+  background-color: $secondary-color;
+  & > * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &-brand,
+  &-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &-item {
+    font-size: 14px;
+  }
+}
