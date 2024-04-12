@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./styles/index.scss";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import Books from "./pages/Books";
 import Borrow from "./pages/Borrow";
