@@ -8,6 +8,7 @@ const {
 
 const bcrypt = require("bcrypt");
 const Patient = require("../models/patient.model");
+const User = require("../models/user.model");
 const { createToken } = require("../middlewares/utils");
 
 // Employee Type definition
@@ -98,8 +99,27 @@ const RootMutationType = new GraphQLObjectType({
           if (existingPatient) {
             throw new Error("This patient already exists!");
           }
+
           const patient = new Patient(args);
-          return await patient.save();
+          const createdPatient = await patient.save();
+
+          if (!createdPatient) {
+            throw new Error("Error creating patient!");
+          }
+
+          const user = new User({
+            roleId: 2,
+            email: args.email,
+            password: createdPatient.password,
+          });
+
+          const savedUser = await user.save();
+
+          if (!savedUser) {
+            throw new Error("Error creating user!");
+          }
+
+          return createdPatient;
         } catch (error) {
           throw new Error(`Failed to add patient: ${error.message}`);
         }
@@ -127,17 +147,42 @@ const RootMutationType = new GraphQLObjectType({
         emergencyContactRelationship: { type: GraphQLString },
       },
       resolve: async (parent, args) => {
-        if (args.password) {
-          const salt = await bcrypt.genSalt();
-          const hashedPassword = await bcrypt.hash(args.password, salt);
-          args.password = hashedPassword;
-        }
+        try {
+          const existingPatient = await Patient.findById(args.id);
 
-        return await Patient.findByIdAndUpdate(
-          args.id,
-          { $set: args },
-          { new: true }
-        );
+          if (!existingPatient) {
+            throw new Error("This patient does not exist!");
+          }
+
+          if (args.password) {
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(args.password, salt);
+            args.password = hashedPassword;
+          }
+
+          const updatedPatient = await Patient.findByIdAndUpdate(
+            args.id,
+            { $set: args },
+            { new: true }
+          );
+
+          if (!updatedPatient) {
+            throw new Error("Error Updating Patient!");
+          }
+
+          const updatedUser = await User.findOneAndUpdate(
+            { email: args.email },
+            { $set: { password: args.password } },
+            { new: true }
+          );
+
+          if (!updatedUser) {
+            throw new Error("Error Updating User!");
+          }
+          return updatedPatient;
+        } catch (error) {
+          throw new Error(`Failed to update nurse: ${error.message}`);
+        }
       },
     },
 

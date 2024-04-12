@@ -111,7 +111,7 @@ Delete Patient by ID
 #   }
 # }
 
-----------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
 Add Nurse (/nurse)
 
@@ -240,5 +240,87 @@ Delete patients from a nurse
 #     firstName
 #     lastName
 #     patients
+#   }
+# }
+
+
+------------------------------------------------------------------------------------
+
+Add Admin (/admin)
+
+# mutation {
+#   addAdmin(
+#     firstName: "Dalton"
+#     lastName: "Miller"
+#     email: "daltonmiller@gmail.com"
+#     password: "daltonmiller"
+#   ) {
+#     id
+#     firstName
+#     lastName
+#     email
+#   }
+# }
+
+Update Admin (/admin)
+
+# mutation {
+#   updateAdmin(
+#     id: "**NURSE_ID**"
+#     firstName: "Dalton"
+#     lastName: "Miller"
+#     email: "daltonmiller@gmail.com"
+#     password: "daltonmiller"
+#   ) {
+#     id
+#     firstName
+#     lastName
+#     email
+#   }
+# }
+
+Delete Admin (/admin - provide Id)
+
+# mutation {
+#   deleteAdmin(id: "**NURSE_ID**") {
+#     id
+#     firstName
+#     lastName
+#     email
+#   }
+# }
+
+Get Admin by ID
+
+# query  {
+#   admin(id: "**ADMIN_ID**") {
+#     id
+#     firstName
+#     lastName
+#     email
+#   }
+# }
+
+Get All Admins
+
+# query  {
+#   admins {
+#     id
+#     firstName
+#     lastName
+#     email
+#   }
+# }
+
+-----------------------------------------------------------------------------
+
+Login
+
+# mutation  {
+#   admins {
+#     userId
+#     roleId
+#     email
+#     token
 #   }
 # }

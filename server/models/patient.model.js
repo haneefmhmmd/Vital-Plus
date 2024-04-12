@@ -43,7 +43,7 @@ const patientSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String
+    type: String,
   },
   emergencyContactName: {
     type: String,

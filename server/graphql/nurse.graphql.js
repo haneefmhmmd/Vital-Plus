@@ -8,7 +8,7 @@ const {
 
 const bcrypt = require("bcrypt");
 const Nurse = require("../models/nurse.model");
-const { createToken } = require("../middlewares/utils");
+const User = require("../models/user.model");
 
 // Nurse Type definition
 const NurseType = new GraphQLObjectType({
@@ -95,7 +95,25 @@ const RootMutationType = new GraphQLObjectType({
             throw new Error("This nurse already exists!");
           }
           const nurse = new Nurse(args);
-          return await nurse.save();
+          const createdNurse = await nurse.save();
+
+          if (!createdNurse) {
+            throw new Error("Error creating nurse!");
+          }
+
+          const user = new User({
+            roleId: 1,
+            email: args.email,
+            password: createdNurse.password,
+          });
+
+          const savedUser = await user.save();
+
+          if (!savedUser) {
+            throw new Error("Error creating user!");
+          }
+
+          return createdNurse;
         } catch (error) {
           throw new Error(`Failed to add nurse: ${error.message}`);
         }
@@ -121,17 +139,43 @@ const RootMutationType = new GraphQLObjectType({
         patients: { type: GraphQLList(GraphQLString) }, // Assuming patients are stored as an array of patientIds
       },
       resolve: async (parent, args) => {
-        if (args.password) {
-          const salt = await bcrypt.genSalt();
-          const hashedPassword = await bcrypt.hash(args.password, salt);
-          args.password = hashedPassword;
-        }
+        try {
+          const existingNurse = await Nurse.findById(args.id);
 
-        return await Nurse.findByIdAndUpdate(
-          args.id,
-          { $set: args },
-          { new: true }
-        );
+          if (!existingNurse) {
+            throw new Error("This nurse does not exist!");
+          }
+
+          if (args.password) {
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(args.password, salt);
+            args.password = hashedPassword;
+          }
+
+          const updatedNurse = await Nurse.findByIdAndUpdate(
+            args.id,
+            { $set: args },
+            { new: true }
+          );
+
+          if (!updatedNurse) {
+            throw new Error("Error Updating Nurse!");
+          }
+
+          const updatedUser = await User.findOneAndUpdate(
+            { email: args.email },
+            { $set: { password: args.password } },
+            { new: true }
+          );
+
+          if (!updatedUser) {
+            throw new Error("Error Updating User!");
+          }
+
+          return updatedNurse;
+        } catch (error) {
+          throw new Error(`Failed to update nurse: ${error.message}`);
+        }
       },
     },
 
@@ -144,40 +188,6 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async (parent, args) => {
         return await Nurse.findByIdAndDelete(args.id);
-      },
-    },
-
-    // NURSE LOGIN
-    nurseLogin: {
-      type: LoginResponseType,
-      description: "Login for a nurse",
-      args: {
-        email: { type: GraphQLNonNull(GraphQLString) },
-        password: { type: GraphQLNonNull(GraphQLString) },
-      },
-      resolve: async (parent, args) => {
-        try {
-          const { email, password } = args;
-
-          const nurse = await Nurse.findOne({ email });
-
-          if (!nurse) {
-            throw new Error("Nurse not found!");
-          }
-
-          const passwordMatch = await bcrypt.compare(password, nurse.password);
-
-          if (!passwordMatch) {
-            throw new Error("Invalid password!");
-          }
-
-          // Generate token
-          const token = createToken(nurse._id);
-
-          return { nurse, token };
-        } catch (error) {
-          throw new Error(`Nurse login failed: ${error.message}`);
-        }
       },
     },
 

@@ -9,6 +9,8 @@ const cors = require("cors");
 const patientSchema = require("./graphql/patient.graphql");
 const vitalSchema = require("./graphql/vital.graphql");
 const nurseSchema = require("./graphql/nurse.graphql");
+const adminSchema = require("./graphql/admin.graphql");
+const authSchema = require("./graphql/auth.graphql");
 
 mongoose
   .connect(process.env.DATABASE_URL, {
@@ -52,6 +54,22 @@ app.use(
   })
 );
 
+app.use(
+  "/admin",
+  expressGraphQL({
+    schema: adminSchema,
+    graphiql: true,
+  })
+);
+
+app.use(
+  "/login",
+  expressGraphQL({
+    schema: authSchema,
+    graphiql: true,
+  })
+);
+
 app.listen(process.env.PORT, () => {
   console.log(
     `Server is running on port : http://localhost:${process.env.PORT}`
@@ -59,4 +77,6 @@ app.listen(process.env.PORT, () => {
   console.log(`Patient @ http://localhost:${process.env.PORT}/patient`);
   console.log(`Vital @ http://localhost:${process.env.PORT}/vital`);
   console.log(`Nurse @ http://localhost:${process.env.PORT}/nurse`);
+  console.log(`Admin @ http://localhost:${process.env.PORT}/admin`);
+  console.log(`Auth @ http://localhost:${process.env.PORT}/login`);
 });
