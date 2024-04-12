@@ -27,7 +27,6 @@ const vitals = [
         bloodPressure: "",
         respiratoryRate: "",
         weight: "",
-        date: "",
         symptoms: [],
       },
     ],
@@ -45,8 +44,5 @@ const patient = {
   zipcode: "",
   country: "",
   image: "",
-  emergencyContact: "",
-  vitals: {
-    vitalId: "",
-  },
+  emergencyContact: ""
 };
