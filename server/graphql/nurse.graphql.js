@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const Nurse = require("../models/nurse.model");
 const Patient = require("../models/patient.model");
 const User = require("../models/user.model");
+const { verifyAccessToken } = require("../middlewares/utils");
 
 // Nurse Type definition
 const NurseType = new GraphQLObjectType({
@@ -28,7 +29,7 @@ const NurseType = new GraphQLObjectType({
     postalCode: { type: GraphQLNonNull(GraphQLString) },
     country: { type: GraphQLNonNull(GraphQLString) },
     image: { type: GraphQLString },
-    patients: { type: GraphQLList(GraphQLString) }, // Assuming patients are stored as an array of patientIds
+    patients: { type: GraphQLList(GraphQLString) },
   }),
 });
 
@@ -82,7 +83,15 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
+
         return await Nurse.findById(args.id);
       },
     },
@@ -91,7 +100,14 @@ const RootQueryType = new GraphQLObjectType({
     nurses: {
       type: new GraphQLList(NurseType),
       description: "List of All Nurses",
-      resolve: async () => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Nurse.find();
       },
     },
@@ -103,8 +119,15 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const nurseDetails = await Nurse.findById(args.id);
 
           if (!nurseDetails) {
@@ -144,8 +167,15 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const nurseDetails = await Nurse.findById(args.id);
 
           if (!nurseDetails) {
@@ -186,8 +216,15 @@ const RootMutationType = new GraphQLObjectType({
         image: { type: GraphQLString },
         patients: { type: GraphQLList(GraphQLString) }, // Assuming patients are stored as an array of patientIds
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const existingNurse = await Nurse.findOne({ email: args.email });
 
           if (existingNurse) {
@@ -237,8 +274,15 @@ const RootMutationType = new GraphQLObjectType({
         image: { type: GraphQLString },
         patients: { type: GraphQLList(GraphQLString) }, // Assuming patients are stored as an array of patientIds
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const existingNurse = await Nurse.findById(args.id);
 
           if (!existingNurse) {
@@ -285,7 +329,14 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Nurse.findByIdAndDelete(args.id);
       },
     },
@@ -298,8 +349,15 @@ const RootMutationType = new GraphQLObjectType({
         nurseId: { type: GraphQLNonNull(GraphQLString) },
         patientIds: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const { nurseId, patientIds } = args;
 
           const nurse = await Nurse.findById(nurseId);
@@ -326,8 +384,15 @@ const RootMutationType = new GraphQLObjectType({
         nurseId: { type: GraphQLNonNull(GraphQLString) },
         patientIds: { type: GraphQLNonNull(GraphQLList(GraphQLString)) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const { nurseId, patientIds } = args;
 
           const nurse = await Nurse.findById(nurseId);

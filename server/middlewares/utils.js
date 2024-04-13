@@ -7,26 +7,22 @@ const createToken = (userId, roleId, email) => {
   });
 };
 
-const requireToken = () => (req, res, next) => {
-  let token;
-  if (req.headers.authorization) {
-    token = req.headers.authorization;
-  } else {
-    token = req.cookies.token;
-  }
+const verifyAccessToken = (context) => {
+  const authHeader = context.req.headers.authorization;
 
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-      if (err) {
-        return res.status(401).json({ error: "Unauthorized: Invalid token" });
-      } else {
-        req.loginId = decodedToken.id;
-        next();
+  if (authHeader) {
+    const token = authHeader.split("Bearer ")[1];
+    if (token) {
+      try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        return decodedToken;
+      } catch (error) {
+        throw new AuthenticationError("Invalid/Expired token");
       }
-    });
-  } else {
-    return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    throw new Error('Authentication token must be "Bearer [token]"');
   }
+  throw new Error("Authorization header must be provided");
 };
 
-module.exports = { createToken, requireToken };
+module.exports = { createToken, verifyAccessToken };

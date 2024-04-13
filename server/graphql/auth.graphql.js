@@ -8,7 +8,7 @@ const {
 } = require("graphql");
 
 const User = require("../models/user.model");
-var jwt = require("../config/jwt.config");
+const { createToken } = require("../middlewares/utils");
 
 const LoginType = new GraphQLObjectType({
   name: "LoginType",
@@ -34,6 +34,15 @@ const RootQueryType = new GraphQLObjectType({
   name: "Query",
   description: "Root Query",
   fields: () => ({
+    // GET ALL PATIENTS
+    logins: {
+      type: new GraphQLList(LoginType),
+      description: "List of All Users",
+      resolve: async () => {
+        return await User.find();
+      },
+    },
+
     // GET PATIENT BY ID
     login: {
       type: LoginType,
@@ -43,15 +52,6 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: async (parent, args) => {
         return await User.findById(args.id);
-      },
-    },
-
-    // GET ALL PATIENTS
-    logins: {
-      type: new GraphQLList(LoginType),
-      description: "List of All Users",
-      resolve: async () => {
-        return await User.find();
       },
     },
   }),
@@ -79,7 +79,9 @@ const RootMutationType = new GraphQLObjectType({
 
           const user = await User.login(args.email, args.password);
 
-          const token = jwt.createToken(user._id, user.roleId, user.email);
+          const token = createToken(user._id, user.roleId, user.email);
+
+          context.res.set("Authorization", `Bearer ${token}`);
 
           context.res.cookie("token", token, {
             httpOnly: true,

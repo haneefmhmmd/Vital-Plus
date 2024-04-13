@@ -62,7 +62,18 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         patientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (
+          decodedToken.roleId !== 0 ||
+          decodedToken.roleId !== 1 ||
+          decodedToken.roleId !== 2
+        ) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Vital.find({ patient: args.patientId });
       },
     },
@@ -83,8 +94,19 @@ const RootMutationType = new GraphQLObjectType({
           type: GraphQLList(MeasurementInputType),
         },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (
+            decodedToken.roleId !== 0 ||
+            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 2
+          ) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const checkVitalExist = await Vital.findOne({
             patient: args.patientId,
           });
@@ -127,8 +149,19 @@ const RootMutationType = new GraphQLObjectType({
         measurementId: { type: GraphQLNonNull(GraphQLID) },
         measurement: { type: GraphQLNonNull(MeasurementInputType) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (
+            decodedToken.roleId !== 0 ||
+            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 2
+          ) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const vital = await Vital.findById(args.vitalId);
           if (!vital) {
             throw new Error("Vital not found");
@@ -155,8 +188,19 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         patientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (
+            decodedToken.roleId !== 0 ||
+            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 2
+          ) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const vital = await Vital.findOneAndDelete({
             patient: args.patientId,
           });
@@ -178,8 +222,19 @@ const RootMutationType = new GraphQLObjectType({
         patientId: { type: GraphQLNonNull(GraphQLID) },
         measurementId: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (
+            decodedToken.roleId !== 0 ||
+            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 2
+          ) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const vital = await Vital.findOne({ patient: args.patientId });
           if (!vital) {
             throw new Error("Vital not found");

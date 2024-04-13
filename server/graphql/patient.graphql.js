@@ -9,6 +9,7 @@ const {
 const bcrypt = require("bcrypt");
 const Patient = require("../models/patient.model");
 const User = require("../models/user.model");
+const { verifyAccessToken } = require("../middlewares/utils");
 
 // Patient Type definition
 const PatientType = new GraphQLObjectType({
@@ -44,7 +45,14 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Patient.findById(args.id);
       },
     },
@@ -53,7 +61,14 @@ const RootQueryType = new GraphQLObjectType({
     patients: {
       type: new GraphQLList(PatientType),
       description: "List of All Patients",
-      resolve: async () => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Patient.find();
       },
     },
@@ -83,8 +98,16 @@ const RootMutationType = new GraphQLObjectType({
         emergencyContactNumber: { type: GraphQLNonNull(GraphQLString) },
         emergencyContactRelationship: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
+
           const existingPatient = await Patient.findOne({ email: args.email });
 
           if (existingPatient) {
@@ -137,8 +160,19 @@ const RootMutationType = new GraphQLObjectType({
         emergencyContactNumber: { type: GraphQLString },
         emergencyContactRelationship: { type: GraphQLString },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
         try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (
+            decodedToken.roleId !== 0 ||
+            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 2
+          ) {
+            throw new AuthenticationError(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
           const existingPatient = await Patient.findById(args.id);
 
           if (!existingPatient) {
@@ -184,7 +218,14 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        const decodedToken = verifyAccessToken(context);
+
+        if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+          throw new AuthenticationError(
+            "Access denied! You are not authorized to access this resource"
+          );
+        }
         return await Patient.findByIdAndDelete(args.id);
       },
     },

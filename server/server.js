@@ -3,9 +3,9 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const expressGraphQL = require("express-graphql").graphqlHTTP;
 const cors = require("cors");
 const { stitchSchemas } = require("@graphql-tools/stitch");
+const { graphqlHTTP } = require("express-graphql");
 
 const patientSchema = require("./graphql/patient.graphql");
 const vitalSchema = require("./graphql/vital.graphql");
@@ -31,6 +31,11 @@ app.use(
   })
 );
 
+const contextMiddleware = (req, res, next) => {
+  req.context = { req, res };
+  next();
+};
+
 const stitchedSchema = stitchSchemas({
   subschemas: [
     { schema: patientSchema },
@@ -41,12 +46,15 @@ const stitchedSchema = stitchSchemas({
   ],
 });
 
+app.use(contextMiddleware);
+
 app.use(
   "/vitalplus",
-  expressGraphQL({
+  graphqlHTTP((req) => ({
     schema: stitchedSchema,
     graphiql: true,
-  })
+    context: req.context,
+  }))
 );
 
 app.listen(process.env.PORT, () => {
