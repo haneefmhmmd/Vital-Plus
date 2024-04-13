@@ -33,12 +33,17 @@ export default function Navbar() {
                   variant="secondary"
                   label="Register"
                   size="sm"
-                  elementType="a"
+                  elementType="link"
                   href="/register"
                 />
               </li>
               <li className="v-nav-item">
-                <Button label="Login" size="sm" elementType="a" href="/login" />
+                <Button
+                  label="Login"
+                  size="sm"
+                  elementType="link"
+                  href="/login"
+                />
               </li>
             </>
           )}

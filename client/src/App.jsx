@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./styles/index.scss";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
@@ -11,16 +11,15 @@ import Home from "./pages/Home";
 import Members from "./pages/Members";
 import Publishers from "./pages/Publishers";
 
+const endpoints = ["/", "/login", "/register"];
+
 function App() {
   const [isApp, setIsApp] = useState(false);
+
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/") {
-      setIsApp(false);
-    } else {
-      setIsApp(true);
-    }
+    setIsApp(!endpoints.includes(location.pathname));
   }, [location.pathname]);
 
   return (

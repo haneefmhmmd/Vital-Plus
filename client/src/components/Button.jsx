@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Button({
   variant,
@@ -20,11 +21,11 @@ export default function Button({
   const btnSize =
     size === "sm" ? "v-btn--sm" : size === "lg" ? "v-btn--lg" : "v-btn--md";
 
-  const Element = elementType || "button";
+  const Element = elementType === "link" ? Link : elementType;
 
   return (
     <Element
-      href={elementType === "a" ? href : null}
+      to={elementType === "link" ? href : null}
       className={`v-btn ${btnVariant} ${btnSize} ${classNames}`.trim()}
       onClick={onClick}
     >
@@ -40,8 +41,8 @@ Button.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   classNames: PropTypes.string,
   imgLeft: PropTypes.node,
-  elementType: PropTypes.oneOf(["button", "a"]),
-  href: PropTypes.string,
+  elementType: PropTypes.oneOf(["button", "link"]),
+
   onClick: PropTypes.func,
 };
 

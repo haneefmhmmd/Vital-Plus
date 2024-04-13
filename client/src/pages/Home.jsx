@@ -22,9 +22,7 @@ export default function Home() {
         signs, and ensure optimal health outcomes.
       </p>
 
-      <Link style={{ padding: "10px" }} to="/signin">
-        <Button label="Login" elementType="a" href="/login" />
-      </Link>
+      <Button label="Login" elementType="link" href="/login" />
 
       <span className="display-6" style={{ fontSize: "25px" }}>
         {" "}
@@ -35,7 +33,7 @@ export default function Home() {
         <Button
           variant="secondary"
           label="Register"
-          elementType="a"
+          elementType="link"
           href="/register"
         />
       </Link>
