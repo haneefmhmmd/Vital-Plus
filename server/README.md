@@ -218,6 +218,7 @@ Get All Nurses
 #     postalCode
 #     country
 #     image
+#     patients
 #   }
 # }
 

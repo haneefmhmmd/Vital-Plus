@@ -10,7 +10,6 @@ const {
 } = require("graphql");
 
 const Vital = require("../models/vital.model");
-const Patient = require("../models/patient.model");
 
 const MeasurementInputType = new GraphQLInputObjectType({
   name: "measurements",

@@ -9,9 +9,8 @@ const {
 const bcrypt = require("bcrypt");
 const Patient = require("../models/patient.model");
 const User = require("../models/user.model");
-const { createToken } = require("../middlewares/utils");
 
-// Employee Type definition
+// Patient Type definition
 const PatientType = new GraphQLObjectType({
   name: "patient",
   description: "This represents a patient object",
@@ -30,14 +29,6 @@ const PatientType = new GraphQLObjectType({
     emergencyContactName: { type: GraphQLNonNull(GraphQLString) },
     emergencyContactNumber: { type: GraphQLNonNull(GraphQLString) },
     emergencyContactRelationship: { type: GraphQLNonNull(GraphQLString) },
-  }),
-});
-
-const LoginResponseType = new GraphQLObjectType({
-  name: "LoginResponse",
-  fields: () => ({
-    patient: { type: PatientType },
-    token: { type: GraphQLString },
   }),
 });
 
@@ -195,43 +186,6 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async (parent, args) => {
         return await Patient.findByIdAndDelete(args.id);
-      },
-    },
-
-    // LOGIN
-    login: {
-      type: LoginResponseType,
-      description: "Login for a patient",
-      args: {
-        email: { type: GraphQLNonNull(GraphQLString) },
-        password: { type: GraphQLNonNull(GraphQLString) },
-      },
-      resolve: async (parent, args) => {
-        try {
-          const { email, password } = args;
-
-          const patient = await Patient.findOne({ email });
-
-          if (!patient) {
-            throw new Error("Patient not found!");
-          }
-
-          const passwordMatch = await bcrypt.compare(
-            password,
-            patient.password
-          );
-
-          if (!passwordMatch) {
-            throw new Error("Invalid password!");
-          }
-
-          // Generate token
-          const token = createToken(patient._id);
-
-          return { patient, token };
-        } catch (error) {
-          throw new Error(`Login failed: ${error.message}`);
-        }
       },
     },
   }),

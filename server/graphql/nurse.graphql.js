@@ -4,10 +4,12 @@ const {
   GraphQLString,
   GraphQLList,
   GraphQLNonNull,
+  GraphQLInt,
 } = require("graphql");
 
 const bcrypt = require("bcrypt");
 const Nurse = require("../models/nurse.model");
+const Patient = require("../models/patient.model");
 const User = require("../models/user.model");
 
 // Nurse Type definition
@@ -30,11 +32,41 @@ const NurseType = new GraphQLObjectType({
   }),
 });
 
-const LoginResponseType = new GraphQLObjectType({
-  name: "LoginResponse",
+// Patient Type definition
+const PatientType = new GraphQLObjectType({
+  name: "patient",
+  description: "This represents a patient object",
   fields: () => ({
-    nurse: { type: NurseType },
-    token: { type: GraphQLString },
+    _id: { type: GraphQLNonNull(GraphQLString) },
+    firstName: { type: GraphQLNonNull(GraphQLString) },
+    lastName: { type: GraphQLNonNull(GraphQLString) },
+    dateOfBirth: { type: GraphQLNonNull(GraphQLString) },
+    email: { type: GraphQLNonNull(GraphQLString) },
+    phoneNumber: { type: GraphQLNonNull(GraphQLString) },
+    address: { type: GraphQLNonNull(GraphQLString) },
+    postalCode: { type: GraphQLNonNull(GraphQLString) },
+    country: { type: GraphQLNonNull(GraphQLString) },
+    image: { type: GraphQLNonNull(GraphQLString) },
+    emergencyContactName: { type: GraphQLNonNull(GraphQLString) },
+    emergencyContactNumber: { type: GraphQLNonNull(GraphQLString) },
+    emergencyContactRelationship: { type: GraphQLNonNull(GraphQLString) },
+  }),
+});
+
+const NursePatientsResponseType = new GraphQLObjectType({
+  name: "NursePatientResponse",
+  fields: () => ({
+    patients: {
+      type: GraphQLNonNull(GraphQLList(GraphQLNonNull(PatientType))),
+    },
+  }),
+});
+
+const NursePatientCountResponseType = new GraphQLObjectType({
+  name: "NursePatientCountResponse",
+  description: "Count of patients associated with a nurse",
+  fields: () => ({
+    count: { type: GraphQLNonNull(GraphQLInt) },
   }),
 });
 
@@ -61,6 +93,73 @@ const RootQueryType = new GraphQLObjectType({
       description: "List of All Nurses",
       resolve: async () => {
         return await Nurse.find();
+      },
+    },
+
+    // GET PATIENTS BY NURSE ID
+    getPatientsByNurseId: {
+      type: NursePatientsResponseType,
+      description: "Get Patients by Nurse ID",
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parent, args) => {
+        try {
+          const nurseDetails = await Nurse.findById(args.id);
+
+          if (!nurseDetails) {
+            throw new Error("Nurse not found!");
+          }
+
+          const patientIds = nurseDetails.patients;
+
+          const patientsDetails = await Promise.all(
+            patientIds.map(async (patientId) => {
+              const patientDetails = await Patient.findById(patientId);
+
+              if (!patientDetails) {
+                throw new Error(`Patient with ID ${patientId} not found!`);
+              }
+
+              return {
+                ...patientDetails.toObject(),
+                id: patientDetails._id.toString(),
+              };
+            })
+          );
+
+          return { patients: patientsDetails };
+        } catch (error) {
+          throw new Error(
+            `Error getting patients by nurse ID: ${error.message}`
+          );
+        }
+      },
+    },
+
+    //GET PATIENT COUNT BY NURSE ID
+    getPatientCountByNurseId: {
+      type: NursePatientCountResponseType,
+      description: "Get Patient Count by Nurse ID",
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parent, args) => {
+        try {
+          const nurseDetails = await Nurse.findById(args.id);
+
+          if (!nurseDetails) {
+            throw new Error("Nurse not found!");
+          }
+
+          const patientCount = nurseDetails.patients.length;
+
+          return { count: patientCount };
+        } catch (error) {
+          throw new Error(
+            `Error getting patient count by nurse ID: ${error.message}`
+          );
+        }
       },
     },
   }),
