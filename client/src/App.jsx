@@ -4,6 +4,7 @@ import "./styles/index.scss";
 
 import Navbar from "./components/Navbar";
 import SideBar from "./components/SideBar";
+import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Borrow from "./pages/Borrow";
 import Home from "./pages/Home";
@@ -30,6 +31,8 @@ function App() {
         <section className="page-container">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Auth />} />
+            <Route path="/register" element={<Auth />} />
             <Route path="/books" element={<Books />} />
             <Route path="/members" element={<Members />} />
             <Route path="/publishers" element={<Publishers />} />
