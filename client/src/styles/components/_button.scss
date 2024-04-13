@@ -15,7 +15,9 @@ button {
   align-items: center;
   min-width: 140px;
   gap: 4px;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+
+  text-decoration: none;
 
   @include respond-below(tablet) {
     width: 100%;
@@ -23,10 +25,12 @@ button {
 
   &:hover {
     background-color: $green-200;
+    border-color: $green-200;
   }
 
   &--primary {
     background-color: $primary-color;
+    border: 1px solid $primary-color;
     color: $secondary-color;
   }
 
@@ -34,10 +38,14 @@ button {
     border: 1px solid $primary-color;
     background-color: $secondary-color;
     color: $primary-color;
+    &:hover {
+      color: $secondary-color;
+    }
   }
 
   &--sm {
     height: 32px;
+    font-size: 14px;
   }
   &--md {
     height: 40px;

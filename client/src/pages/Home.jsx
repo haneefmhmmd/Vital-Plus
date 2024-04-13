@@ -23,10 +23,7 @@ export default function Home() {
       </p>
 
       <Link style={{ padding: "10px" }} to="/signin">
-        <Button label="Login" />
-        {/* <button type="button" className="pill">
-          Login
-        </button> */}
+        <Button label="Login" elementType="a" href="/login" />
       </Link>
 
       <span className="display-6" style={{ fontSize: "25px" }}>
@@ -35,9 +32,12 @@ export default function Home() {
       </span>
 
       <Link style={{ padding: "10px" }} to="#">
-        <button type="button" className="pill">
-          Register
-        </button>
+        <Button
+          variant="secondary"
+          label="Register"
+          elementType="a"
+          href="/register"
+        />
       </Link>
 
       <div className="mt-5" style={{ padding: "20px", textAlign: "center" }}>

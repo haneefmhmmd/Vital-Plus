@@ -1,7 +1,16 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-export default function Button({ variant, size, label, classNames, imgLeft }) {
+export default function Button({
+  variant,
+  size,
+  label,
+  classNames,
+  imgLeft,
+  elementType,
+  href,
+  onClick,
+}) {
   const btnVariant =
     variant === "rounded"
       ? "v-btn--rounded"
@@ -11,11 +20,17 @@ export default function Button({ variant, size, label, classNames, imgLeft }) {
   const btnSize =
     size === "sm" ? "v-btn--sm" : size === "lg" ? "v-btn--lg" : "v-btn--md";
 
+  const Element = elementType || "button";
+
   return (
-    <button className={`v-btn ${btnVariant} ${btnSize} ${classNames}`.trim()}>
+    <Element
+      href={elementType === "a" ? href : null}
+      className={`v-btn ${btnVariant} ${btnSize} ${classNames}`.trim()}
+      onClick={onClick}
+    >
       {variant === "rounded" && { imgLeft }}
       {variant !== "rounded" && <span className="btn__label">{label}</span>}
-    </button>
+    </Element>
   );
 }
 
@@ -25,6 +40,9 @@ Button.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   classNames: PropTypes.string,
   imgLeft: PropTypes.node,
+  elementType: PropTypes.oneOf(["button", "a"]),
+  href: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
@@ -32,4 +50,6 @@ Button.defaultProps = {
   size: "md",
   classNames: "",
   imgLeft: null,
+  elementType: "button",
+  href: "",
 };
