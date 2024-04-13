@@ -12,7 +12,11 @@ export default function Auth() {
   const location = useLocation();
   const isLogin = location.pathname === "/login"; // Check if it's the login page
   const { user } = useAuth();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const [mutateFunction] = useMutation(isLogin ? LOGIN_USER : REGISTER_USER);
 
   const onSubmit = async (data) => {
@@ -37,7 +41,10 @@ export default function Auth() {
         navigate("/app");
       }
     } catch (error) {
-      console.error(`Error ${isLogin ? "logging in" : "registering"}:`, error);
+      console.error(
+        `Error ${isLogin ? "logging in" : "registering"}:`,
+        error.message
+      );
     }
   };
 
@@ -48,29 +55,51 @@ export default function Auth() {
           <>
             <div>
               <label htmlFor="firstName">First Name</label>
-              <input {...register("firstName")} id="firstName" />
+              <input
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
+                id="firstName"
+              />
+              {errors.firstName && (
+                <p role="alert">{errors.firstName.message}</p>
+              )}
             </div>
             <div>
               <label htmlFor="lastName">Last Name</label>
-              <input {...register("lastName")} id="lastName" />
+              <input
+                {...register("lastName", {
+                  required: "First name is required",
+                })}
+                id="lastName"
+              />
+              {errors.lastName && <p role="alert">{errors.lastName.message}</p>}
             </div>
           </>
         )}
         <div>
           <label htmlFor="email">Email</label>
           <input
-            {...register("email", { required: true })}
+            {...register("email", { required: "Email is required" })}
             id="email"
             type="email"
           />
+          {errors.email && <p role="alert">{errors.email.message}</p>}
         </div>
         <div>
           <label htmlFor="password">Your Password</label>
           <input
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 3,
+                message: "Password should have minimum of 3 character",
+              },
+            })}
             id="password"
             type="password"
           />
+          {errors.password && <p role="alert">{errors.password.message}</p>}
         </div>
         <Button label={isLogin ? "Login" : "Register"} type="submit" />
       </form>
