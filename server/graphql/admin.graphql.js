@@ -67,6 +67,7 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async (parent, args) => {
         try {
+          console.log("Admin req...");
           const existingAdmin = await Admin.findOne({ email: args.email });
 
           if (existingAdmin) {
