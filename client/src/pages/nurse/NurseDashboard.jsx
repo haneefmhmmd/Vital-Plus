@@ -5,6 +5,7 @@ import {
   GET_PATIENTS_BY_NURSE_ID,
   GET_PATIENT_COUNT_BY_NURSE_ID,
 } from "../../config/apollo-client";
+
 import useAuth from "../../utils/useAuth";
 
 import Button from "../../components/Button";
@@ -96,7 +97,7 @@ export default function Members() {
         </div>
       </div>
 
-      <div>
+      <div className="mt-4">
         <h2 className="sub-title">Currently Montioring Patients</h2>
       </div>
 

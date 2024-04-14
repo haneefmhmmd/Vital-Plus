@@ -27,16 +27,18 @@ export default function SideBar() {
           <img src="/images/books.png" alt="image of book" />
           <span>Dashboard</span>
         </Link>
-        <Link
-          to="/nurse/add-patient"
-          className={`btn btn-sm btn-sidebar text-start ${
-            activeNavItem == "/nurse/add-patient" ? "active" : ""
-          }`}
-          id="add-patient"
-        >
-          <img src="/images/members.png" alt="image of members" />
-          <span>Add Patient</span>
-        </Link>
+        {user.roleId == 1 && (
+          <Link
+            to="/nurse/add-patient"
+            className={`btn btn-sm btn-sidebar text-start ${
+              activeNavItem == "/nurse/add-patient" ? "active" : ""
+            }`}
+            id="add-patient"
+          >
+            <img src="/images/members.png" alt="image of members" />
+            <span>Add Patient</span>
+          </Link>
+        )}
         <Link
           to="/add-vital"
           className={`btn btn-sm btn-sidebar text-start ${
