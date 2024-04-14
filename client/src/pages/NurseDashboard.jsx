@@ -16,6 +16,7 @@ export default function Members() {
     const getPatientsByNurse = useQuery(GET_PATIENTS_BY_NURSE_ID, { variables: { id: user.entityId } });
     const getNurseDetails = useQuery(GET_NURSE_BY_ID, { variables: { id: user.entityId } });
 
+
     if (patientCountQuery.loading || lastAddedPatient.loading || getPatientsByNurse.loading || getNurseDetails.loading) return <p>Loading...</p>;
 
     if (patientCountQuery.error) return <p>Error: {patientCountQuery.error.message}</p>;

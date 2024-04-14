@@ -8,9 +8,9 @@ const {
 } = require("graphql");
 
 const User = require("../models/user.model");
+const Patient = require("../models/patient.model");
 const Admin = require("../models/admin.model");
 const Nurse = require("../models/nurse.model");
-const Patient = require("../models/patient.model");
 const { createToken } = require("../middlewares/utils");
 
 const LoginType = new GraphQLObjectType({

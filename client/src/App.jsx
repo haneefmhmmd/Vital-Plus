@@ -12,7 +12,6 @@ import AddPatient from "./pages/nurse-dashboard/AddPatient";
 // import Members from "./pages/Members";
 import NurseDashboard from "./pages/NurseDashboard";
 import Publishers from "./pages/Publishers";
-import Patient from "./pages/nurse-dashboard/Patient";
 
 const endpoints = ["/", "/login", "/register"];
 
@@ -38,7 +37,6 @@ function App() {
             <Route path="/app" element={<Books />} />
             <Route path="/app/nurse" element={<NurseDashboard />} />
             <Route path="/add-patient" element={<AddPatient />} />
-            <Route path="/patient/:id" element={<Patient />} />
           </Routes>
         </section>
       </main>

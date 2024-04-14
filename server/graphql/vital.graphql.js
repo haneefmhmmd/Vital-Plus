@@ -155,8 +155,8 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (
-            decodedToken.roleId !== 0 ||
-            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 0 &&
+            decodedToken.roleId !== 1 &&
             decodedToken.roleId !== 2
           ) {
             throw new Error(
@@ -194,8 +194,8 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (
-            decodedToken.roleId !== 0 ||
-            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 0 &&
+            decodedToken.roleId !== 1 &&
             decodedToken.roleId !== 2
           ) {
             throw new Error(
