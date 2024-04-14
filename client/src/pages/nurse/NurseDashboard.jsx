@@ -55,42 +55,55 @@ export default function Members() {
 
   return (
     <>
+      <header className="dashboard-header">
+        <div className="header__left">
+          <img
+            className="profile-img"
+            src={getNurseDetailsResponse.image}
+            alt={`Profile image of ${getNurseDetailsResponse.firstName}`}
+          />
+          <div className="header__info">
+            <h1 className="title">
+              {getNurseDetailsResponse.firstName}{" "}
+              {getNurseDetailsResponse.lastName}
+            </h1>
+            <p>
+              {getNurseDetailsResponse.email} |{" "}
+              {getNurseDetailsResponse.phoneNumber}
+            </p>
+          </div>
+        </div>
+        <div className="header__right">
+          <Button
+            variant="secondary"
+            label="Add Patient"
+            elementType="link"
+            href="/nurse/add-patient"
+          />
+        </div>
+      </header>
+      <div className="highlights-wrapper">
+        <div className="highlights">
+          <h2 className="highlights__title">{count}</h2>
+          <p className="highlights__desc">No.of Patients</p>
+        </div>
+
+        <div className="highlights">
+          <h2 className="highlights__title">
+            {lastAddedPatientResponse.firstName}
+          </h2>
+          <p className="highlights__desc">Last Added Patient</p>
+        </div>
+      </div>
+
       <div>
-        <h6>Nurse Bar</h6>
-        <p>
-          Name : {getNurseDetailsResponse.firstName}{" "}
-          {getNurseDetailsResponse.lastName}
-        </p>
-        <p>
-          Details : {getNurseDetailsResponse.email} |{" "}
-          {getNurseDetailsResponse.phoneNumber}
-        </p>
-        <p>ImageURL : {getNurseDetailsResponse.image}</p>
-
-        <button>Add Patient</button>
+        <h2 className="sub-title">Currently Montioring Patients</h2>
       </div>
 
-      <div style={{ marginTop: "30px" }}>
-        <h6>Tile #1</h6>
-        <h6>No.of Patients</h6>
-        <p>Count : {count}</p>
-      </div>
-
-      <div style={{ marginTop: "30px" }}>
-        <h6>Tile #2</h6>
-        <h6>Last Added Patient</h6>
-        <p>
-          Name : {lastAddedPatientResponse.firstName}{" "}
-          {lastAddedPatientResponse.lastName}
-        </p>
-      </div>
-
-      <div style={{ marginTop: "30px" }}>
-        <h6>Table #3</h6>
-        <h6>All Patients Managed By This Nurse</h6>
-        <table style={{ marginTop: "30px" }}>
+      <div className="rounded shadow-sm p-2 bg-white table-responsive mt-3">
+        <table className="table table-borderless table-hover align-middle">
           <thead>
-            <tr>
+            <tr className="border-bottom">
               <th>ID</th>
               <th>Name</th>
               <th>Date of Birth</th>
