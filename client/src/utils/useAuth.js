@@ -31,7 +31,6 @@ export default function useAuth() {
   const navigate = useNavigate();
   useEffect(() => {
     const retrievedUser = fetchFromLS("user");
-
     if (retrievedUser) {
       setUser(retrievedUser);
     } else {
