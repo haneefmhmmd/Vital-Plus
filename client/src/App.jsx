@@ -13,6 +13,7 @@ import Consultation from "./pages/nurse/Consultation";
 import NurseDashboard from "./pages/nurse/NurseDashboard";
 import Patient from "./pages/nurse/Patient";
 import PatientDashboard from "./pages/patient/PatientDashboard";
+import useAuth from "./utils/useAuth";
 
 const endpoints = ["/", "/login", "/register"];
 

@@ -6,7 +6,7 @@ import { AppContext } from "../App";
 import Button from "../components/Button";
 import { LOGIN_USER, REGISTER_USER } from "../config/apollo-client";
 import { saveToLS } from "../utils/localStorage.util";
-import useAuth, { user } from "../utils/useAuth";
+import useAuth from "../utils/useAuth";
 
 export default function Auth() {
   const navigate = useNavigate();

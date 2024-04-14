@@ -1,13 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { fetchFromLS } from "../utils/localStorage.util";
 import Button from "./Button";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../App";
+import useAuth from "../utils/useAuth";
 
 export default function Navbar() {
-  const { isLoggedIn } = useContext(AppContext);
+  const { user } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (user && user.token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [user]);
+
+  const { removeUser } = useAuth();
+  const handleLogout = () => {
+    removeUser();
+    setIsLoggedIn(false);
+  };
 
   return (
     <nav className="v-navbar">
@@ -43,7 +59,12 @@ export default function Navbar() {
           )}
           {isLoggedIn && (
             <li className="v-nav-item">
-              <img src="/images/user.png" width="20" height="20" />
+              <Button
+                variant="secondary"
+                label="Logout"
+                size="sm"
+                onClick={handleLogout}
+              />
             </li>
           )}
         </ul>
