@@ -43,6 +43,27 @@ export default function AddPatient() {
     }
   };
 
+  const SelectPatient = () => {
+    return patientsQuery.loading ? (
+      <p>Loading...</p>
+    ) : patientsQuery.error ? (
+      <p>Error loading patients</p>
+    ) : (
+      <div className="input-wrapper">
+        <label className="input-label" htmlFor="id">
+          Select Patient:
+        </label>
+        <select className="input" {...register("id")} id="id">
+          {patientsQuery.data.getPatientsByNurseId.patients.map((patient) => (
+            <option key={patient._id} value={patient._id}>
+              {patient.firstName} {patient.lastName}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  };
+
   return (
     <div className="page">
       <header className="page__header">
@@ -50,26 +71,7 @@ export default function AddPatient() {
       </header>
       <div className="page__body">
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
-          {patientsQuery.loading ? (
-            <p>Loading...</p>
-          ) : patientsQuery.error ? (
-            <p>Error loading patients</p>
-          ) : (
-            <div className="input-wrapper">
-              <label className="input-label" htmlFor="id">
-                Select Patient:
-              </label>
-              <select className="input" {...register("id")} id="id">
-                {patientsQuery.data.getPatientsByNurseId.patients.map(
-                  (patient) => (
-                    <option key={patient._id} value={patient._id}>
-                      {patient.firstName} {patient.lastName}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-          )}
+          {user.roleId != 2 && <SelectPatient />}
           {fields.map((field, index) => (
             <div className="input-wrapper" key={index}>
               <label className="input-label" htmlFor={field.name}>
