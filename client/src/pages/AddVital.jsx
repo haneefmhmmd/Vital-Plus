@@ -1,13 +1,11 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import Button from "../../components/Button";
-import { ADD_VITAL, GET_PATIENTS_BY_NURSE_ID } from "../../config/apollo-client";
-import useAuth from "../../utils/useAuth";
+import Button from "../components/Button";
+import { ADD_VITAL, GET_PATIENTS_BY_NURSE_ID } from "../config/apollo-client";
+import useAuth from "../utils/useAuth";
 
 export default function AddPatient() {
-
   const {
     register,
     formState: { errors },
@@ -16,7 +14,9 @@ export default function AddPatient() {
 
   const { user } = useAuth();
 
-  const patientsQuery = useQuery(GET_PATIENTS_BY_NURSE_ID, { variables: { id: user.entityId } });
+  const patientsQuery = useQuery(GET_PATIENTS_BY_NURSE_ID, {
+    variables: { id: user.entityId },
+  });
 
   const [mutateFunction] = useMutation(ADD_VITAL);
 
@@ -27,7 +27,9 @@ export default function AddPatient() {
       data.respiratoryRate = parseFloat(data.respiratoryRate);
       data.weight = parseFloat(data.weight);
 
-      const symptomsArray = data.symptoms.split(",").map(symptom => symptom.trim());
+      const symptomsArray = data.symptoms
+        .split(",")
+        .map((symptom) => symptom.trim());
 
       const newData = { ...data, symptoms: symptomsArray };
 
@@ -36,7 +38,6 @@ export default function AddPatient() {
       if (response) {
         alert("Vital added succesfully!");
       }
-
     } catch (error) {
       console.error(error.message);
     }
@@ -53,11 +54,13 @@ export default function AddPatient() {
           <div>
             <label htmlFor="id">Select Patient:</label>
             <select {...register("id")} id="id">
-              {patientsQuery.data.getPatientsByNurseId.patients.map((patient) => (
-                <option key={patient._id} value={patient._id}>
-                  {patient.firstName} {patient.lastName}
-                </option>
-              ))}
+              {patientsQuery.data.getPatientsByNurseId.patients.map(
+                (patient) => (
+                  <option key={patient._id} value={patient._id}>
+                    {patient.firstName} {patient.lastName}
+                  </option>
+                )
+              )}
             </select>
           </div>
         )}

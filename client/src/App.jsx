@@ -4,15 +4,16 @@ import "./styles/index.scss";
 
 import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
+import AddVital from "./pages/AddVital";
 import Auth from "./pages/Auth";
-import Books from "./pages/Books";
 import Home from "./pages/Home";
 import ManageAccount from "./pages/ManageAccount";
-import NurseDashboard from "./pages/NurseDashboard";
-import AddPatient from "./pages/nurse-dashboard/AddPatient";
-import AddVital from "./pages/nurse-dashboard/AddVital";
-import Consultation from "./pages/nurse-dashboard/Consultation";
-import Patient from "./pages/nurse-dashboard/Patient";
+import AddPatient from "./pages/nurse/AddPatient";
+import Consultation from "./pages/nurse/Consultation";
+import NurseDashboard from "./pages/nurse/NurseDashboard";
+import Patient from "./pages/nurse/Patient";
+import PatientDashboard from "./pages/patient/PatientDashboard";
+
 const endpoints = ["/", "/login", "/register"];
 
 function App() {
@@ -34,13 +35,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
-            <Route path="/app" element={<Books />} />
-            <Route path="/app/nurse" element={<NurseDashboard />} />
-            <Route path="/add-patient" element={<AddPatient />} />
-            <Route path="/add-vital" element={<AddVital />} />
-            <Route path="/patient/:id" element={<Patient />} />
-            <Route path="/consultation" element={<Consultation />} />
+            <Route path="/patient" element={<PatientDashboard />} />
+            <Route path="/nurse" element={<NurseDashboard />} />
             <Route path="/manage-account" element={<ManageAccount />} />
+            <Route path="/add-vital" element={<AddVital />} />
+            <Route path="/nurse/add-patient" element={<AddPatient />} />
+            <Route path="/nurse/patient/:id" element={<Patient />} />
+            <Route path="/nurse/consultation" element={<Consultation />} />
           </Routes>
         </section>
       </main>
