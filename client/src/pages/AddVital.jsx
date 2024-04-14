@@ -44,41 +44,53 @@ export default function AddPatient() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {patientsQuery.loading ? (
-          <p>Loading...</p>
-        ) : patientsQuery.error ? (
-          <p>Error loading patients</p>
-        ) : (
-          <div>
-            <label htmlFor="id">Select Patient:</label>
-            <select {...register("id")} id="id">
-              {patientsQuery.data.getPatientsByNurseId.patients.map(
-                (patient) => (
-                  <option key={patient._id} value={patient._id}>
-                    {patient.firstName} {patient.lastName}
-                  </option>
-                )
+    <div className="page">
+      <header className="page__header">
+        <h1 className="title">New Vital Measurements</h1>
+      </header>
+      <div className="page__body">
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          {patientsQuery.loading ? (
+            <p>Loading...</p>
+          ) : patientsQuery.error ? (
+            <p>Error loading patients</p>
+          ) : (
+            <div className="input-wrapper">
+              <label className="input-label" htmlFor="id">
+                Select Patient:
+              </label>
+              <select className="input" {...register("id")} id="id">
+                {patientsQuery.data.getPatientsByNurseId.patients.map(
+                  (patient) => (
+                    <option key={patient._id} value={patient._id}>
+                      {patient.firstName} {patient.lastName}
+                    </option>
+                  )
+                )}
+              </select>
+            </div>
+          )}
+          {fields.map((field, index) => (
+            <div className="input-wrapper" key={index}>
+              <label className="input-label" htmlFor={field.name}>
+                {field.label}
+              </label>
+              <input
+                className="input"
+                {...register(field.name, field.validators)}
+                id={field.name}
+                type={field.type}
+              />
+              {errors[field.name] && (
+                <p className="input-errpr" role="alert">
+                  {errors[field.name].message}
+                </p>
               )}
-            </select>
-          </div>
-        )}
-        {fields.map((field, index) => (
-          <div key={index}>
-            <label htmlFor={field.name}>{field.label}</label>
-            <input
-              {...register(field.name, field.validators)}
-              id={field.name}
-              type={field.type}
-            />
-            {errors[field.name] && (
-              <p role="alert">{errors[field.name].message}</p>
-            )}
-          </div>
-        ))}
-        <Button label="Add Vital" type="submit" />
-      </form>
+            </div>
+          ))}
+          <Button label="Add Vital" type="submit" />
+        </form>
+      </div>
     </div>
   );
 }
