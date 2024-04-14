@@ -1,33 +1,40 @@
-import { ApolloClient, InMemoryCache, gql, createHttpLink } from "@apollo/client";
-import { setContext } from '@apollo/client/link/context';
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  gql,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { fetchFromLS } from "../utils/localStorage.util";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:3000/vitalplus",
 });
 
 const authLink = setContext((_, { headers }) => {
-
-  const user = localStorage.getItem('user');
-
+  const user = fetchFromLS("user");
   if (user) {
     const token = user.token;
+    console.log(`Bearer ${token}`);
     return {
       headers: {
         ...headers,
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     };
   }
 
   return {
     headers,
-  }
+  };
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+export default client;
 
 export const REGISTER_USER = gql`
   mutation AddNurse(
@@ -126,5 +133,3 @@ export const GET_PATIENT_COUNT_BY_NURSE_ID = gql`
     }
   }
 `;
-
-export default client;
