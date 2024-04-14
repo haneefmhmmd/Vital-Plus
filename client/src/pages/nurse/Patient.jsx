@@ -47,8 +47,12 @@ export default function Patient() {
             </p>
           </div>
           <div>
-            <Button label="Add Vital" />
-            <Button label="Provide Consultation" />
+            <Button label="Add Vital" elementType="link" href="/add-vital" />
+            <Button
+              label="Provide Consultation"
+              elementType="link"
+              href="/nurse/consultation"
+            />
           </div>
         </div>
       )}
