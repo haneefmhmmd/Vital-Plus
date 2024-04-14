@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { useEffect } from "react";
 import Button from "../components/Button";
 import { LOGIN_USER, REGISTER_USER } from "../config/apollo-client";
 import { saveToLS } from "../utils/localStorage.util";
@@ -61,19 +62,22 @@ export default function Auth() {
         user.email = responseData.login.email;
         user.token = responseData.login.token;
         saveToLS("user", user);
-
-        if (user.roleId == 1) {
-          navigate("/nurse");
-        } else if (user.roleId == 2) {
-          console.log("Navigating...: ", user.roleId);
-          navigate("/patient");
-        }
+        navigateToDashboard();
       }
     } catch (error) {
       console.error(
         `Error ${isLogin ? "logging in" : "registering"}:`,
         error.message
       );
+    }
+  };
+
+  const navigateToDashboard = (roleId) => {
+    if (user.roleId == 1) {
+      navigate("/nurse");
+    } else if (user.roleId == 2) {
+      console.log("Navigating...: ", user.roleId);
+      navigate("/patient");
     }
   };
 
