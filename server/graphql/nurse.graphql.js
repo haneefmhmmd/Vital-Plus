@@ -353,7 +353,7 @@ const RootMutationType = new GraphQLObjectType({
         try {
           const decodedToken = verifyAccessToken(context);
 
-          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+          if (decodedToken.roleId === 2) {
             throw new Error(
               "Access denied! You are not authorized to access this resource"
             );

@@ -75,3 +75,9 @@ button {
     text-align: center;
   }
 }
+
+.v-btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: all;
+}

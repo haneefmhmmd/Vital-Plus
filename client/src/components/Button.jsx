@@ -11,6 +11,7 @@ export default function Button({
   elementType,
   href,
   onClick,
+  isDisabled,
 }) {
   const btnVariant =
     variant === "rounded"
@@ -22,11 +23,13 @@ export default function Button({
     size === "sm" ? "v-btn--sm" : size === "lg" ? "v-btn--lg" : "v-btn--md";
 
   const Element = elementType === "link" ? Link : elementType;
-
+  const modifiedclassNames = `${classNames} ${
+    isDisabled && "v-btn-disabled"
+  }`.trim();
   return (
     <Element
       to={elementType === "link" ? href : null}
-      className={`v-btn ${btnVariant} ${btnSize} ${classNames}`.trim()}
+      className={`v-btn ${btnVariant} ${btnSize} ${modifiedclassNames}`.trim()}
       onClick={onClick}
     >
       {variant === "rounded" && { imgLeft }}
@@ -42,8 +45,8 @@ Button.propTypes = {
   classNames: PropTypes.string,
   imgLeft: PropTypes.node,
   elementType: PropTypes.oneOf(["button", "link"]),
-
   onClick: PropTypes.func,
+  isDisabled: PropTypes.oneOf([true, false]),
 };
 
 Button.defaultProps = {
@@ -53,4 +56,5 @@ Button.defaultProps = {
   imgLeft: null,
   elementType: "button",
   href: "",
+  isDisabled: false,
 };

@@ -97,7 +97,7 @@ export const ADD_PATIENT = gql`
     $address: String!
     $postalCode: String!
     $country: String!
-    $image: String
+    $image: String!
     $emergencyContactName: String!
     $emergencyContactNumber: String!
     $emergencyContactRelationship: String!
@@ -130,6 +130,14 @@ export const GET_PATIENT_COUNT_BY_NURSE_ID = gql`
   query GetPatientCountByNurseId($email: String!) {
     getPatientCountByNurseId(email: $email) {
       count
+    }
+  }
+`;
+
+export const ASSIGN_PATIENT_TO_NURSE = gql`
+  mutation AddPatientsToNurse($nurseId: String!, $patientId: [String!]!) {
+    addPatientsToNurse(nurseId: $nurseId, patientIds: $patientId) {
+      id
     }
   }
 `;

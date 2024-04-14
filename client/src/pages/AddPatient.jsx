@@ -1,23 +1,37 @@
 import { useMutation } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
-import { ADD_PATIENT } from "../config/apollo-client";
-
+import { ADD_PATIENT, ASSIGN_PATIENT_TO_NURSE } from "../config/apollo-client";
+import useAuth from "../utils/useAuth";
 export default function AddPatient() {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-
+  const { user } = useAuth();
+  const [patientId, setPatientId] = useState(null);
   const [mutateFunction] = useMutation(ADD_PATIENT);
-
+  const [assignPatientMutateFunc] = useMutation(ASSIGN_PATIENT_TO_NURSE);
   const onSubmit = async (data) => {
     try {
       const { data: responseData } = await mutateFunction({ variables: data });
-      console.log(responseData);
+      setPatientId(responseData.data.addPatient.id);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handlePatientAssignment = async () => {
+    try {
+      const { data } = await assignPatientMutateFunc({
+        variables: { nurseId: user.userId, patientId: [patientId] },
+      });
+      if (data) {
+        setPatientId(null);
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -41,6 +55,11 @@ export default function AddPatient() {
         ))}
         <Button label="Add Patient" type="submit" />
       </form>
+      <Button
+        label="Assign Patient to Self"
+        onClick={handlePatientAssignment}
+        isDisabled={patientId === null}
+      />
     </div>
   );
 }

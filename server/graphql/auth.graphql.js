@@ -8,6 +8,8 @@ const {
 } = require("graphql");
 
 const User = require("../models/user.model");
+const Patient = require("../models/patient.model");
+const Nurse = require("../models/nurse.model");
 const { createToken } = require("../middlewares/utils");
 
 const LoginType = new GraphQLObjectType({
@@ -26,6 +28,7 @@ const LoginResponseType = new GraphQLObjectType({
     roleId: { type: GraphQLString },
     email: { type: GraphQLString },
     token: { type: GraphQLString },
+    entityId: { type: GraphQLString },
   }),
 });
 
@@ -51,6 +54,8 @@ const RootQueryType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: async (parent, args) => {
+        const user = await User.findById(args.id);
+
         return await User.findById(args.id);
       },
     },
