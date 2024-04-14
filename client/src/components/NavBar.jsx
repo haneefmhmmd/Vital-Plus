@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { fetchFromLS } from "../utils/localStorage.util";
 import Button from "./Button";
 
-export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+import { Link } from "react-router-dom";
+import { AppContext } from "../App";
 
-  useEffect(() => {
-    const accessToken = fetchFromLS("access_token");
-    if (accessToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [isLoggedIn]);
+export default function Navbar() {
+  const { isLoggedIn } = useContext(AppContext);
 
   return (
     <nav className="v-navbar">
       <div>
-        <a className="v-navbar-brand" href="/">
+        <Link className="v-navbar-brand" to="/">
           <img
             className="v-nav-logo"
             src="/images/logo/logofull.png"
             height={32}
           />
-        </a>
+        </Link>
         <ul className="v-navbar-nav">
           {!isLoggedIn && (
             <>

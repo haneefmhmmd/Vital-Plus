@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./styles/index.scss";
 
@@ -16,7 +16,11 @@ import PatientDashboard from "./pages/patient/PatientDashboard";
 
 const endpoints = ["/", "/login", "/register"];
 
+export const AppContext = createContext(null);
+
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isApp, setIsApp] = useState(false);
 
   const location = useLocation();
@@ -26,7 +30,7 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <>
+    <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, isApp }}>
       <Navbar />
       <main className="main-container">
         {isApp && <SideBar />}
@@ -45,7 +49,7 @@ function App() {
           </Routes>
         </section>
       </main>
-    </>
+    </AppContext.Provider>
   );
 }
 

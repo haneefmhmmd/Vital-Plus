@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../App";
 import Button from "../components/Button";
 import { LOGIN_USER, REGISTER_USER } from "../config/apollo-client";
 import { saveToLS } from "../utils/localStorage.util";
@@ -18,7 +19,7 @@ export default function Auth() {
     handleSubmit,
   } = useForm();
   const [mutateFunction] = useMutation(isLogin ? LOGIN_USER : REGISTER_USER);
-
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
   const onSubmit = async (data) => {
     const {
       email,
@@ -61,6 +62,7 @@ export default function Auth() {
         user.email = responseData.login.email;
         user.token = responseData.login.token;
         saveToLS("user", user);
+        setIsLoggedIn(true);
         if (user.roleId == 1) {
           navigate("/nurse");
         } else if (user.role == 2) {

@@ -29,14 +29,12 @@ export default function Home() {
         or{" "}
       </span>
 
-      <Link style={{ padding: "10px" }} to="#">
-        <Button
-          variant="secondary"
-          label="Register"
-          elementType="link"
-          href="/register"
-        />
-      </Link>
+      <Button
+        variant="secondary"
+        label="Register"
+        elementType="link"
+        href="/register"
+      />
 
       <div className="mt-5" style={{ padding: "20px", textAlign: "center" }}>
         <img src={Img003} alt={Img003} style={{ width: "80%" }} />
