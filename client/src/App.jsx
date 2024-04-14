@@ -7,6 +7,7 @@ import SideBar from "./components/SideBar";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Home from "./pages/Home";
+import ManageAccount from "./pages/ManageAccount";
 import NurseDashboard from "./pages/NurseDashboard";
 import AddPatient from "./pages/nurse-dashboard/AddPatient";
 import AddVital from "./pages/nurse-dashboard/AddVital";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/add-vital" element={<AddVital />} />
             <Route path="/patient/:id" element={<Patient />} />
             <Route path="/consultation" element={<Consultation />} />
+            <Route path="/manage-account" element={<ManageAccount />} />
           </Routes>
         </section>
       </main>

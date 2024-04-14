@@ -191,6 +191,117 @@ export const GET_NURSE_BY_ID = gql`
   }
 `;
 
+export const GET_PATIENT_BY_ID = gql`
+  query GetPatient($id: String!) {
+    patient(id: $id) {
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
+      emergencyContactName
+      emergencyContactNumber
+      emergencyContactRelationship
+    }
+  }
+`;
+
+export const UPDATE_NURSE_BY_ID = gql`
+  mutation UpdateNurse(
+    $id: String!
+    $firstName: String!
+    $lastName: String!
+    $dateOfBirth: String!
+    $email: String!
+    $password: String!
+    $phoneNumber: String!
+    $address: String!
+    $postalCode: String!
+    $country: String!
+    $image: String
+  ) {
+    updateNurse(
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      dateOfBirth: $dateOfBirth
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+      address: $address
+      postalCode: $postalCode
+      country: $country
+      image: $image
+    ) {
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
+    }
+  }
+`;
+
+export const UPDATE_PATIENT_BY_ID = gql`
+  mutation UpdatePatient(
+    $id: String!
+    $firstName: String!
+    $lastName: String!
+    $dateOfBirth: String!
+    $email: String!
+    $password: String!
+    $phoneNumber: String!
+    $address: String!
+    $postalCode: String!
+    $country: String!
+    $image: String!
+    $emergencyContactName: String!
+    $emergencyContactNumber: String!
+    $emergencyContactRelationship: String!
+  ) {
+    updatePatient(
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      dateOfBirth: $dateOfBirth
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+      address: $address
+      postalCode: $postalCode
+      country: $country
+      image: $image
+      emergencyContactName: $emergencyContactName
+      emergencyContactNumber: $emergencyContactNumber
+      emergencyContactRelationship: $emergencyContactRelationship
+    ) {
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
+      emergencyContactName
+      emergencyContactNumber
+      emergencyContactRelationship
+    }
+  }
+`;
+
 export const ADD_VITAL = gql`
   mutation AddPatientVital(
     $id: String!
@@ -219,19 +330,6 @@ export const ADD_VITAL = gql`
         weight
         symptoms
       }
-    }
-  }
-`;
-
-export const GET_PATIENT_BY_ID = gql`
-  query GetPatient($id: String!) {
-    patient(id: $id) {
-      id
-      firstName
-      lastName
-      dateOfBirth
-      email
-      phoneNumber
     }
   }
 `;
