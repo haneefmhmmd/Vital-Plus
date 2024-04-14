@@ -29,13 +29,24 @@ export default function Patient() {
     }
   }, [vitals]);
 
+  if (loading) {
+    return (
+      <div>
+        <p>Loading patient data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <p>Error occurred while fetching data. Please try again.</p>
+      </div>
+    );
+  }
+
   return (
     <article>
-      {error && (
-        <div>
-          <p>Error occurred while fetching data. Please try again.</p>
-        </div>
-      )}
       {data && (
         <div>
           <div>
@@ -56,7 +67,16 @@ export default function Patient() {
           </div>
         </div>
       )}
-
+      {vitalsLoading && (
+        <div>
+          <p>Loading patient vitals info...</p>
+        </div>
+      )}
+      {vitalsError && (
+        <div>
+          <p>Error occurred while loading patient vitals. Please try again.</p>
+        </div>
+      )}
       {vitals && (
         <>
           <h3>Vitals</h3>
