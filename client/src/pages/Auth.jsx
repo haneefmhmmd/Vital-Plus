@@ -82,129 +82,198 @@ export default function Auth() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            {...register("email", { required: "Email is required" })}
-            id="email"
-            type="email"
-          />
-          {errors.email && <p role="alert">{errors.email.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="password">Your Password</label>
-          <input
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 3,
-                message: "Password should have minimum of 3 character",
-              },
-            })}
-            id="password"
-            type="password"
-          />
-          {errors.password && <p role="alert">{errors.password.message}</p>}
-        </div>
-        {!isLogin && (
-          <>
-            <div>
-              <label htmlFor="firstName">First Name</label>
-              <input
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
-                id="firstName"
-              />
-              {errors.firstName && (
-                <p role="alert">{errors.firstName.message}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                {...register("lastName", {
-                  required: "First name is required",
-                })}
-                id="lastName"
-              />
-              {errors.lastName && <p role="alert">{errors.lastName.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="dateOfBirth">Date of Birth</label>
-              <input
-                {...register("dateOfBirth", {
-                  required: "Date of Birth is required",
-                })}
-                id="dateOfBirth"
-                type="date"
-              />
-              {errors.dateOfBirth && (
-                <p role="alert">{errors.dateOfBirth.message}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <input
-                {...register("phoneNumber", {
-                  required: "Phone Number is required",
-                })}
-                id="phoneNumber"
-                type="tel"
-              />
-              {errors.phoneNumber && (
-                <p role="alert">{errors.phoneNumber.message}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="address">Address</label>
-              <input
-                {...register("address", { required: "Address is required" })}
-                id="address"
-                type="text"
-              />
-              {errors.address && <p role="alert">{errors.address.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="postalCode">Postal Code</label>
-              <input
-                {...register("postalCode", {
-                  required: "Postal Code is required",
-                })}
-                id="postalCode"
-                type="text"
-              />
-              {errors.postalCode && (
-                <p role="alert">{errors.postalCode.message}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="country">Country</label>
-              <input
-                {...register("country", { required: "Country is required" })}
-                id="country"
-                type="text"
-              />
-              {errors.country && <p role="alert">{errors.country.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="image">Profile Image</label>
-              <input
-                {...register("image", {
-                  required: "Profile Image is required",
-                })}
-                id="image"
-                type="url"
-              />
-              {errors.image && <p role="alert">{errors.image.message}</p>}
-            </div>
-          </>
-        )}
+    <div className="auth">
+      <div className="form-container">
+        <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+        <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-wrapper">
+            <label className="input-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              {...register("email", { required: "Email is required" })}
+              id="email"
+              type="email"
+              className="input"
+            />
+            {errors.email && (
+              <p className="input-error" role="alert">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <div className="input-wrapper">
+            <label className="input-label" htmlFor="password">
+              Your Password
+            </label>
+            <input
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 3,
+                  message: "Password should have minimum of 3 character",
+                },
+              })}
+              id="password"
+              type="password"
+              className="input"
+            />
+            {errors.password && (
+              <p className="input-error" role="alert">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+          {!isLogin && (
+            <>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="firstName">
+                  First Name
+                </label>
+                <input
+                  {...register("firstName", {
+                    required: "First name is required",
+                  })}
+                  id="firstName"
+                  className="input"
+                />
+                {errors.firstName && (
+                  <p className="input-error" role="alert">
+                    {errors.firstName.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="lastName">
+                  Last Name
+                </label>
+                <input
+                  {...register("lastName", {
+                    required: "Last name is required",
+                  })}
+                  id="lastName"
+                  className="input"
+                />
+                {errors.lastName && (
+                  <p className="input-error" role="alert">
+                    {errors.lastName.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="dateOfBirth">
+                  Date of Birth
+                </label>
+                <input
+                  {...register("dateOfBirth", {
+                    required: "Date of Birth is required",
+                  })}
+                  id="dateOfBirth"
+                  type="date"
+                  className="input"
+                />
+                {errors.dateOfBirth && (
+                  <p className="input-error" role="alert">
+                    {errors.dateOfBirth.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="phoneNumber">
+                  Phone Number
+                </label>
+                <input
+                  {...register("phoneNumber", {
+                    required: "Phone Number is required",
+                  })}
+                  id="phoneNumber"
+                  type="tel"
+                  className="input"
+                />
+                {errors.phoneNumber && (
+                  <p className="input-error" role="alert">
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="address">
+                  Address
+                </label>
+                <input
+                  {...register("address", {
+                    required: "Address is required",
+                  })}
+                  id="address"
+                  type="text"
+                  className="input"
+                />
+                {errors.address && (
+                  <p className="input-error" role="alert">
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="postalCode">
+                  Postal Code
+                </label>
+                <input
+                  {...register("postalCode", {
+                    required: "Postal Code is required",
+                  })}
+                  id="postalCode"
+                  type="text"
+                  className="input"
+                />
+                {errors.postalCode && (
+                  <p className="input-error" role="alert">
+                    {errors.postalCode.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="country">
+                  Country
+                </label>
+                <input
+                  {...register("country", {
+                    required: "Country is required",
+                  })}
+                  id="country"
+                  type="text"
+                  className="input"
+                />
+                {errors.country && (
+                  <p className="input-error" role="alert">
+                    {errors.country.message}
+                  </p>
+                )}
+              </div>
+              <div className="input-wrapper">
+                <label className="input-label" htmlFor="image">
+                  Profile Image
+                </label>
+                <input
+                  {...register("image", {
+                    required: "Profile Image is required",
+                  })}
+                  id="image"
+                  type="url"
+                  className="input"
+                />
+                {errors.image && (
+                  <p className="input-error" role="alert">
+                    {errors.image.message}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
 
-        <Button label={isLogin ? "Login" : "Register"} type="submit" />
-      </form>
+          <Button label={isLogin ? "Login" : "Register"} type="submit" />
+        </form>
+      </div>
     </div>
   );
 }

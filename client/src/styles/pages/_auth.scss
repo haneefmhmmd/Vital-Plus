@@ -1,0 +1,32 @@
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  margin: 16px 0;
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid $primary-color;
+  padding: 24px;
+  border-radius: 24px;
+  background-color: #fff;
+  box-shadow: $box-shadow-sm;
+
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    color: $primary-color;
+    margin-bottom: 24px;
+  }
+  form {
+    margin-top: 32px;
+  }
+  .input-wrapper {
+    margin-bottom: 24px;
+  }
+  .v-btn {
+    width: 100%;
+  }
+}
