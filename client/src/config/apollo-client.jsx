@@ -141,3 +141,32 @@ export const ASSIGN_PATIENT_TO_NURSE = gql`
     }
   }
 `;
+
+export const GET_PATIENT_BY_ID = gql`
+  query GetPatient($id: String!) {
+    patient(id: $id) {
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+    }
+  }
+`;
+
+export const ADD_VITAL = gql`
+  mutation AddVital($patientId: ID!, $measurements: [measurements!]!) {
+    addVital(patientId: $patientId, measurements: $measurements) {
+      id
+      measurements {
+        date
+        bodyTemperature
+        bodyPressure
+        respiratoryRate
+        weight
+        symptoms
+      }
+    }
+  }
+`;

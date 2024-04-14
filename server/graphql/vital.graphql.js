@@ -10,6 +10,7 @@ const {
 } = require("graphql");
 
 const Vital = require("../models/vital.model");
+const { verifyAccessToken } = require("../middlewares/utils");
 
 const MeasurementInputType = new GraphQLInputObjectType({
   name: "measurements",
@@ -66,8 +67,8 @@ const RootQueryType = new GraphQLObjectType({
         const decodedToken = verifyAccessToken(context);
 
         if (
-          decodedToken.roleId !== 0 ||
-          decodedToken.roleId !== 1 ||
+          decodedToken.roleId !== 0 &&
+          decodedToken.roleId !== 1 &&
           decodedToken.roleId !== 2
         ) {
           throw new Error(
@@ -99,8 +100,8 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (
-            decodedToken.roleId !== 0 ||
-            decodedToken.roleId !== 1 ||
+            decodedToken.roleId !== 0 &&
+            decodedToken.roleId !== 1 &&
             decodedToken.roleId !== 2
           ) {
             throw new Error(
