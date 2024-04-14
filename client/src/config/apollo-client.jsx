@@ -78,6 +78,7 @@ export const REGISTER_USER = gql`
 export const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
+      entityId
       userId
       roleId
       token
@@ -127,8 +128,8 @@ export const ADD_PATIENT = gql`
 `;
 
 export const GET_PATIENT_COUNT_BY_NURSE_ID = gql`
-  query GetPatientCountByNurseId($email: String!) {
-    getPatientCountByNurseId(email: $email) {
+  query GetPatientCountByNurseId($id: String!) {
+    getPatientCountByNurseId(id: $id) {
       count
     }
   }
@@ -138,6 +139,54 @@ export const ASSIGN_PATIENT_TO_NURSE = gql`
   mutation AddPatientsToNurse($nurseId: String!, $patientId: [String!]!) {
     addPatientsToNurse(nurseId: $nurseId, patientIds: $patientId) {
       id
+    }
+  }
+`;
+
+export const GET_LAST_ADDED_PATIENT = gql`
+  query GetLastAddedPatient {
+    getLastAddedPatient{
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const GET_PATIENTS_BY_NURSE_ID = gql`
+  query GetPatientsByNurseId($id: String!) {
+    getPatientsByNurseId(id: $id) {
+      patients {
+        _id
+        firstName
+        lastName
+        dateOfBirth
+        email
+        phoneNumber
+        address
+        postalCode
+        country
+        image
+        emergencyContactName
+        emergencyContactNumber
+        emergencyContactRelationship
+      }
+    }
+  }
+`;
+
+export const GET_NURSE_BY_ID = gql`
+  query GetNurseById($id: String!) {
+    nurse(id: $id) {
+        id
+        firstName
+        lastName
+        dateOfBirth
+        email
+        phoneNumber
+        address
+        postalCode
+        country
+        image
     }
   }
 `;

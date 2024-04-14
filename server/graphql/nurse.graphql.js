@@ -86,7 +86,7 @@ const RootQueryType = new GraphQLObjectType({
       resolve: async (parent, args, context) => {
         const decodedToken = verifyAccessToken(context);
 
-        if (decodedToken.roleId !== 0) {
+        if (decodedToken.roleId == 2) {
           throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
@@ -103,7 +103,7 @@ const RootQueryType = new GraphQLObjectType({
       resolve: async (parent, args, context) => {
         const decodedToken = verifyAccessToken(context);
 
-        if (decodedToken.roleId !== 0) {
+        if (decodedToken.roleId == 2) {
           throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
@@ -123,7 +123,7 @@ const RootQueryType = new GraphQLObjectType({
         try {
           const decodedToken = verifyAccessToken(context);
 
-          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
+          if (decodedToken.roleId == 2) {
             throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
@@ -165,7 +165,7 @@ const RootQueryType = new GraphQLObjectType({
       type: NursePatientCountResponseType,
       description: "Get Patient Count by Nurse ID",
       args: {
-        email: { type: GraphQLNonNull(GraphQLString) },
+        id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: async (parent, args, context) => {
         try {
@@ -176,7 +176,7 @@ const RootQueryType = new GraphQLObjectType({
               "Access denied! You are not authorized to access this resource"
             );
           }
-          const nurseDetails = await Nurse.findOne({ email: args.email });
+          const nurseDetails = await Nurse.findById(args.id);
 
           if (!nurseDetails) {
             throw new Error("Nurse not found!");
@@ -188,6 +188,37 @@ const RootQueryType = new GraphQLObjectType({
         } catch (error) {
           throw new Error(
             `Error getting patient count by nurse ID: ${error.message}`
+          );
+        }
+      },
+    },
+
+    // GET LAST ADDED PATIENT
+    getLastAddedPatient: {
+      type: PatientType,
+      description: "Get the last added patient",
+      resolve: async (parent, args, context) => {
+        try {
+          const decodedToken = verifyAccessToken(context);
+
+          if (decodedToken.roleId == 2) {
+            throw new Error(
+              "Access denied! You are not authorized to access this resource"
+            );
+          }
+
+          const lastAddedPatient = await Patient.findOne().sort({
+            createdAt: -1,
+          });
+
+          if (!lastAddedPatient) {
+            throw new Error("No patients found!");
+          }
+
+          return lastAddedPatient;
+        } catch (error) {
+          throw new Error(
+            `Error getting the last added patient: ${error.message}`
           );
         }
       },

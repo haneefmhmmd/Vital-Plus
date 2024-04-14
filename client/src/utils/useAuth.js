@@ -8,6 +8,7 @@ export const USER_ROLE = {
 };
 
 export const user = {
+  entityId: "",
   userId: "",
   roleId: "",
   email: "",
@@ -16,6 +17,7 @@ export const user = {
 
 export default function useAuth() {
   const [user, setUser] = useState({
+    entityId: "",
     userId: "",
     roleId: "",
     email: "",

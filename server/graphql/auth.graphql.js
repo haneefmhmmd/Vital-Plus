@@ -8,8 +8,9 @@ const {
 } = require("graphql");
 
 const User = require("../models/user.model");
-const Patient = require("../models/patient.model");
+const Admin = require("../models/admin.model");
 const Nurse = require("../models/nurse.model");
+const Patient = require("../models/patient.model");
 const { createToken } = require("../middlewares/utils");
 
 const LoginType = new GraphQLObjectType({
@@ -24,11 +25,11 @@ const LoginType = new GraphQLObjectType({
 const LoginResponseType = new GraphQLObjectType({
   name: "LoginResponse",
   fields: () => ({
+    entityId: { type: GraphQLString },
     userId: { type: GraphQLString },
     roleId: { type: GraphQLString },
     email: { type: GraphQLString },
     token: { type: GraphQLString },
-    entityId: { type: GraphQLString },
   }),
 });
 
@@ -54,8 +55,6 @@ const RootQueryType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: async (parent, args) => {
-        const user = await User.findById(args.id);
-
         return await User.findById(args.id);
       },
     },
@@ -84,7 +83,25 @@ const RootMutationType = new GraphQLObjectType({
 
           const user = await User.login(args.email, args.password);
 
-          const token = createToken(user._id, user.roleId, user.email);
+          let entityId = "";
+
+          if (user.roleId == 0) {
+            const admin = await Admin.findOne({ email: args.email });
+            entityId = admin._id;
+          } else if (user.roleId == 1) {
+            const nurse = await Nurse.findOne({ email: args.email });
+            entityId = nurse._id;
+          } else if (user.roleId == 2) {
+            const patient = await Patient.findOne({ email: args.email });
+            entityId = patient._id;
+          }
+
+          const token = createToken(
+            entityId,
+            user._id,
+            user.roleId,
+            user.email
+          );
 
           context.res.set("Authorization", `Bearer ${token}`);
 
@@ -94,6 +111,7 @@ const RootMutationType = new GraphQLObjectType({
           });
 
           return {
+            entityId: entityId,
             userId: user._id,
             roleId: user.roleId,
             email: args.email,

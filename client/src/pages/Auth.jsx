@@ -37,17 +37,17 @@ export default function Auth() {
         variables: isLogin
           ? { email, password }
           : {
-              firstName,
-              lastName,
-              dateOfBirth,
-              email,
-              password,
-              phoneNumber,
-              address,
-              postalCode,
-              country,
-              image,
-            },
+            firstName,
+            lastName,
+            dateOfBirth,
+            email,
+            password,
+            phoneNumber,
+            address,
+            postalCode,
+            country,
+            image,
+          },
       });
 
       if (!isLogin) {
@@ -55,6 +55,7 @@ export default function Auth() {
       }
 
       if (isLogin && responseData && responseData.login) {
+        user.entityId = responseData.login.entityId;
         user.userId = responseData.login.userId;
         user.roleId = responseData.login.roleId;
         user.email = responseData.login.email;
