@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import useAuth from "../utils/useAuth";
+
 export default function SideBar() {
+  const { user } = useAuth();
   const [activeNavItem, setActiveNavItem] = useState("/");
   const location = useLocation();
 
@@ -13,44 +16,46 @@ export default function SideBar() {
     <aside className="sidebar bg-white border-end shadow-sm">
       <nav className="sidebar-nav">
         <Link
-          to="/"
+          to={user.roleId == 1 ? "/nurse" : "/patient"}
           className={`btn btn-sm btn-sidebar text-start ${
-            activeNavItem == "/" || activeNavItem == "/books" ? "active" : ""
+            activeNavItem == "/patient" || activeNavItem == "/nurse"
+              ? "active"
+              : ""
           }`}
-          id="Books"
+          id="Dashboard"
         >
           <img src="/images/books.png" alt="image of book" />
-          <span>Books</span>
+          <span>Dashboard</span>
         </Link>
         <Link
-          to="/members"
+          to="/nurse/add-patient"
           className={`btn btn-sm btn-sidebar text-start ${
-            activeNavItem == "/members" ? "active" : ""
+            activeNavItem == "/nurse/add-patient" ? "active" : ""
           }`}
-          id="Members"
+          id="add-patient"
         >
           <img src="/images/members.png" alt="image of members" />
-          <span>Members</span>
+          <span>Add Patient</span>
         </Link>
         <Link
-          to="/publishers"
+          to="/add-vital"
           className={`btn btn-sm btn-sidebar text-start ${
-            activeNavItem == "/publishers" ? "active" : ""
+            activeNavItem == "/add-vital" ? "active" : ""
           }`}
-          id="Publishers"
+          id="add-vital"
         >
           <img src="/images/publishers.png" alt="image of publishers" />
-          <span>Publishers</span>
+          <span>Add Vital</span>
         </Link>
         <Link
-          to="/borrow"
+          to="/manage-account"
           className={`btn btn-sm btn-sidebar text-start ${
-            activeNavItem == "/borrow" ? "active" : ""
+            activeNavItem == "/manage-account" ? "active" : ""
           }`}
-          id="Borrow"
+          id="account"
         >
           <img src="/images/borrow-book.png" alt="image of borrow book" />
-          <span>Borrow</span>
+          <span>Account</span>
         </Link>
       </nav>
     </aside>
