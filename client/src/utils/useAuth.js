@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchFromLS, removeFromLS } from "./localStorage.util";
 
 import { AppContext } from "../App";
@@ -21,6 +21,9 @@ export const user = {
 export default function useAuth() {
   const { isLoggedIn } = useContext(AppContext);
 
+  const location = useLocation();
+  const openApis = ["/", "/login", "/register"];
+
   const [user, setUser] = useState({
     entityId: "",
     userId: "",
@@ -31,9 +34,11 @@ export default function useAuth() {
   const navigate = useNavigate();
   useEffect(() => {
     const retrievedUser = fetchFromLS("user");
+
+    console.log(openApis.includes(location.pathname));
     if (retrievedUser) {
       setUser(retrievedUser);
-    } else {
+    } else if (!openApis.includes(location.pathname)) {
       navigate("/login");
     }
   }, [isLoggedIn]);
