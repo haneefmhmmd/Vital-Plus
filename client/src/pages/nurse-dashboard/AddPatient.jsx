@@ -21,7 +21,7 @@ export default function AddPatient() {
   const onSubmit = async (data) => {
     try {
       const { data: responseData } = await mutateFunction({ variables: data });
-      setPatientId(responseData.data.addPatient.id);
+      setPatientId(responseData.addPatient.id);
     } catch (error) {
       console.error(error.message);
     }
@@ -30,7 +30,7 @@ export default function AddPatient() {
   const handlePatientAssignment = async () => {
     try {
       const { data } = await assignPatientMutateFunc({
-        variables: { nurseId: user.userId, patientId: [patientId] },
+        variables: { nurseId: user.entityId, patientId: [patientId] },
       });
       if (data) {
         setPatientId(null);
