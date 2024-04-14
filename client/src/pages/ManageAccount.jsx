@@ -79,28 +79,37 @@ export default function ManageAccount() {
   }
 
   return (
-    <div>
-      {userDetails && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {userDetails.map((field, index) => (
-            <div key={index}>
-              <label htmlFor={field.name}>{field.label}</label>
-              <input
-                {...register(field.name, field.validators)}
-                id={field.name}
-                type={field.type}
-                defaultValue={field.value}
-              />
-              {errors[field.name] && (
-                <p role="alert">{errors[field.name].message}</p>
-              )}
-            </div>
-          ))}
-
-          <Button label="Save" />
-        </form>
-      )}
-    </div>
+    <section className="page">
+      <header className="page__header">
+        <h1 className="title">Manage Account</h1>
+      </header>
+      <div className="page__body">
+        {userDetails && (
+          <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            {userDetails.map((field, index) => (
+              <div className="input-wrapper" key={index}>
+                <label className="input-label" htmlFor={field.name}>
+                  {field.label}
+                </label>
+                <input
+                  className="input"
+                  {...register(field.name, field.validators)}
+                  id={field.name}
+                  type={field.type}
+                  defaultValue={field.value}
+                />
+                {errors[field.name] && (
+                  <p className="input-error" role="alert">
+                    {errors[field.name].message}
+                  </p>
+                )}
+              </div>
+            ))}
+            <Button label="Save" type="submit" />
+          </form>
+        )}
+      </div>
+    </section>
   );
 }
 
