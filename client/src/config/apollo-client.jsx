@@ -145,7 +145,7 @@ export const ASSIGN_PATIENT_TO_NURSE = gql`
 
 export const GET_LAST_ADDED_PATIENT = gql`
   query GetLastAddedPatient {
-    getLastAddedPatient{
+    getLastAddedPatient {
       firstName
       lastName
     }
@@ -177,48 +177,77 @@ export const GET_PATIENTS_BY_NURSE_ID = gql`
 export const GET_NURSE_BY_ID = gql`
   query GetNurseById($id: String!) {
     nurse(id: $id) {
-        id
-        firstName
-        lastName
-        dateOfBirth
-        email
-        phoneNumber
-        address
-        postalCode
-        country
-        image
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
     }
   }
 `;
 
 export const ADD_VITAL = gql`
-  mutation AddPatientVital (
-    $id: String!,
-    $bodyTemperature: Float!,
-    $bodyPressure: Float!,
-    $respiratoryRate: Float!,
-    $weight: Float!,
+  mutation AddPatientVital(
+    $id: String!
+    $bodyTemperature: Float!
+    $bodyPressure: Float!
+    $respiratoryRate: Float!
+    $weight: Float!
     $symptoms: [String!]!
-    ) {
+  ) {
     addVital(
       patientId: $id
       measurements: {
-        bodyTemperature :  $bodyTemperature
-        bodyPressure : $bodyPressure
-        respiratoryRate : $respiratoryRate
-        weight : $weight
-        symptoms : $symptoms
+        bodyTemperature: $bodyTemperature
+        bodyPressure: $bodyPressure
+        respiratoryRate: $respiratoryRate
+        weight: $weight
+        symptoms: $symptoms
       }
     ) {
-        id
-        patient
-        measurements{
-          bodyTemperature
-          bodyPressure
-          respiratoryRate
-          weight
-          symptoms
-        }
+      id
+      patient
+      measurements {
+        bodyTemperature
+        bodyPressure
+        respiratoryRate
+        weight
+        symptoms
+      }
+    }
+  }
+`;
+
+export const GET_PATIENT_BY_ID = gql`
+  query GetPatient($id: String!) {
+    patient(id: $id) {
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+    }
+  }
+`;
+
+export const GET_VITALS_BY_PATIENT_ID = gql`
+  query GetVitalsByPatientId($patientId: ID!) {
+    vitalByPatientId(patientId: $patientId) {
+      id
+      measurements {
+        date
+        bodyTemperature
+        bodyPressure
+        respiratoryRate
+        weight
+        symptoms
+      }
     }
   }
 `;

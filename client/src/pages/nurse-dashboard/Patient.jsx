@@ -25,7 +25,7 @@ export default function Patient() {
   useEffect(() => {
     console.log(vitalsLoading);
     if (vitals) {
-      console.log(vitals.vitalByPatientId[0].measurements);
+      console.log(vitals);
     }
   }, [vitals]);
 
@@ -69,7 +69,7 @@ export default function Patient() {
             </thead>
 
             <tbody>
-              {!vitalsLoading &&
+              {vitals.vitalByPatientId.length !== 0 &&
                 vitals.vitalByPatientId[0].measurements.map((measurement) => {
                   return (
                     <tr key={uuid()}>
@@ -82,6 +82,13 @@ export default function Patient() {
                     </tr>
                   );
                 })}
+              {vitals.vitalByPatientId.length == 0 && (
+                <tr>
+                  <td colSpan="6" align="center">
+                    No Vital Measurements available
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </>

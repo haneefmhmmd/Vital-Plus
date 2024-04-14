@@ -7,9 +7,10 @@ import SideBar from "./components/SideBar";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Home from "./pages/Home";
+import NurseDashboard from "./pages/NurseDashboard";
 import AddPatient from "./pages/nurse-dashboard/AddPatient";
 import AddVital from "./pages/nurse-dashboard/AddVital";
-import NurseDashboard from "./pages/NurseDashboard";
+import Patient from "./pages/nurse-dashboard/Patient";
 
 const endpoints = ["/", "/login", "/register"];
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/app/nurse" element={<NurseDashboard />} />
             <Route path="/add-patient" element={<AddPatient />} />
             <Route path="/add-vital" element={<AddVital />} />
+            <Route path="/patient/:id" element={<Patient />} />
           </Routes>
         </section>
       </main>
