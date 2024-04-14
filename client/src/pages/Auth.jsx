@@ -37,17 +37,17 @@ export default function Auth() {
         variables: isLogin
           ? { email, password }
           : {
-            firstName,
-            lastName,
-            dateOfBirth,
-            email,
-            password,
-            phoneNumber,
-            address,
-            postalCode,
-            country,
-            image,
-          },
+              firstName,
+              lastName,
+              dateOfBirth,
+              email,
+              password,
+              phoneNumber,
+              address,
+              postalCode,
+              country,
+              image,
+            },
       });
 
       if (!isLogin) {
@@ -61,7 +61,11 @@ export default function Auth() {
         user.email = responseData.login.email;
         user.token = responseData.login.token;
         saveToLS("user", user);
-        navigate("/app");
+        if (user.roleId == 1) {
+          navigate("/nurse");
+        } else if (user.role == 2) {
+          navigate("/patient");
+        }
       }
     } catch (error) {
       console.error(
