@@ -7,6 +7,8 @@ import {
 } from "../../config/apollo-client";
 import useAuth from "../../utils/useAuth";
 
+import Button from "../../components/Button";
+
 export default function Members() {
   const { user } = useAuth();
 
@@ -95,6 +97,7 @@ export default function Members() {
               <th>Email</th>
               <th>Phone</th>
               <th>Address</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -109,6 +112,15 @@ export default function Members() {
                 <td>{patient.phoneNumber}</td>
                 <td>
                   {patient.address}. {patient.postalCode}. {patient.country}
+                </td>
+                <td>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    elementType="link"
+                    label="View"
+                    href={`/nurse/patient/${patient._id}`}
+                  />
                 </td>
               </tr>
             ))}
