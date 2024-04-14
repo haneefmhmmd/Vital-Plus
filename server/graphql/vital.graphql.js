@@ -90,7 +90,7 @@ const RootMutationType = new GraphQLObjectType({
       type: VitalType,
       description: "Add a new vital",
       args: {
-        patientId: { type: GraphQLNonNull(GraphQLID) },
+        patientId: { type: GraphQLNonNull(GraphQLString) },
         measurements: {
           type: GraphQLList(MeasurementInputType),
         },

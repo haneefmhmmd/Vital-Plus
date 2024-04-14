@@ -190,3 +190,35 @@ export const GET_NURSE_BY_ID = gql`
     }
   }
 `;
+
+export const ADD_VITAL = gql`
+  mutation AddPatientVital (
+    $id: String!,
+    $bodyTemperature: Float!,
+    $bodyPressure: Float!,
+    $respiratoryRate: Float!,
+    $weight: Float!,
+    $symptoms: [String!]!
+    ) {
+    addVital(
+      patientId: $id
+      measurements: {
+        bodyTemperature :  $bodyTemperature
+        bodyPressure : $bodyPressure
+        respiratoryRate : $respiratoryRate
+        weight : $weight
+        symptoms : $symptoms
+      }
+    ) {
+        id
+        patient
+        measurements{
+          bodyTemperature
+          bodyPressure
+          respiratoryRate
+          weight
+          symptoms
+        }
+    }
+  }
+`;

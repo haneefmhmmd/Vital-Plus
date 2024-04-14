@@ -6,12 +6,10 @@ import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
-import Borrow from "./pages/Borrow";
 import Home from "./pages/Home";
 import AddPatient from "./pages/nurse-dashboard/AddPatient";
-// import Members from "./pages/Members";
+import AddVital from "./pages/nurse-dashboard/AddVital";
 import NurseDashboard from "./pages/NurseDashboard";
-import Publishers from "./pages/Publishers";
 
 const endpoints = ["/", "/login", "/register"];
 
@@ -37,6 +35,7 @@ function App() {
             <Route path="/app" element={<Books />} />
             <Route path="/app/nurse" element={<NurseDashboard />} />
             <Route path="/add-patient" element={<AddPatient />} />
+            <Route path="/add-vital" element={<AddVital />} />
           </Routes>
         </section>
       </main>
