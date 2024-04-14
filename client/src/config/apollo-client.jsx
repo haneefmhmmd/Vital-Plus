@@ -155,6 +155,22 @@ export const GET_PATIENT_BY_ID = gql`
   }
 `;
 
+export const GET_VITALS_BY_PATIENT_ID = gql`
+  query GetVitalsByPatientId($patientId: ID!) {
+    vitalByPatientId(patientId: $patientId) {
+      id
+      measurements {
+        date
+        bodyTemperature
+        bodyPressure
+        respiratoryRate
+        weight
+        symptoms
+      }
+    }
+  }
+`;
+
 export const ADD_VITAL = gql`
   mutation AddVital($patientId: ID!, $measurements: [measurements!]!) {
     addVital(patientId: $patientId, measurements: $measurements) {
