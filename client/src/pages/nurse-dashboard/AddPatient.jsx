@@ -2,9 +2,12 @@ import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
-import Button from "../components/Button";
-import { ADD_PATIENT, ASSIGN_PATIENT_TO_NURSE } from "../config/apollo-client";
-import useAuth from "../utils/useAuth";
+import Button from "../../components/Button";
+import {
+  ADD_PATIENT,
+  ASSIGN_PATIENT_TO_NURSE,
+} from "../../config/apollo-client";
+import useAuth from "../../utils/useAuth";
 export default function AddPatient() {
   const {
     register,

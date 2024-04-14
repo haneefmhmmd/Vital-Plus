@@ -4,14 +4,14 @@ import "./styles/index.scss";
 
 import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
-import AddPatient from "./pages/AddPatient";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Borrow from "./pages/Borrow";
 import Home from "./pages/Home";
+import AddPatient from "./pages/nurse-dashboard/AddPatient";
 // import Members from "./pages/Members";
-import Publishers from "./pages/Publishers";
 import NurseDashboard from "./pages/NurseDashboard";
+import Publishers from "./pages/Publishers";
 
 const endpoints = ["/", "/login", "/register"];
 
