@@ -12,6 +12,7 @@ export default function Button({
   href,
   onClick,
   isDisabled,
+  ...restProps
 }) {
   const btnVariant =
     variant === "rounded"
@@ -26,11 +27,13 @@ export default function Button({
   const modifiedclassNames = `${classNames} ${
     isDisabled && "v-btn-disabled"
   }`.trim();
+
   return (
     <Element
       to={elementType === "link" ? href : null}
       className={`v-btn ${btnVariant} ${btnSize} ${modifiedclassNames}`.trim()}
       onClick={onClick}
+      {...restProps}
     >
       {variant === "rounded" && { imgLeft }}
       {variant !== "rounded" && <span className="btn__label">{label}</span>}

@@ -41,29 +41,41 @@ export default function AddPatient() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {fields.map((field, index) => (
-          <div key={index}>
-            <label htmlFor={field.name}>{field.label}</label>
-            <input
-              {...register(field.name, field.validators)}
-              id={field.name}
-              type={field.type}
-            />
-            {errors[field.name] && (
-              <p role="alert">{errors[field.name].message}</p>
-            )}
-          </div>
-        ))}
-        <Button label="Add Patient" type="submit" />
-      </form>
-      <Button
-        label="Assign Patient to Self"
-        onClick={handlePatientAssignment}
-        isDisabled={patientId === null}
-      />
-    </div>
+    <section className="page">
+      <header className="page__header">
+        <h1 className="title">Add New Patient</h1>
+      </header>
+      <div className="page__body">
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          {fields.map((field, index) => (
+            <div key={index} className="input-wrapper">
+              <label className="input-label" htmlFor={field.name}>
+                {field.label}
+              </label>
+              <input
+                {...register(field.name, field.validators)}
+                id={field.name}
+                type={field.type}
+                className="input"
+              />
+              {errors[field.name] && (
+                <p className="input-error" role="alert">
+                  {errors[field.name].message}
+                </p>
+              )}
+            </div>
+          ))}
+          <Button label="Add Patient" type="submit" />
+          <Button
+            label="Assign Patient to Self"
+            onClick={handlePatientAssignment}
+            isDisabled={patientId === null}
+            classNames="mt-3"
+            type="button"
+          />
+        </form>
+      </div>
+    </section>
   );
 }
 

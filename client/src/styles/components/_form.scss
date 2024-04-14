@@ -1,12 +1,12 @@
 .form {
-  max-width: 550px;
-  color: #26a69a;
-  border: #26a69a solid 2px;
-}
+  max-width: 560px;
+  .input-wrapper {
+    margin-bottom: 24px;
+  }
 
-.form form input {
-  border: #26a69a solid 1px;
-  border-radius: 10px !important;
+  .v-btn {
+    width: 100%;
+  }
 }
 
 .primary-pill {

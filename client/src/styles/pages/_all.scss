@@ -9,3 +9,17 @@
   font-size: 20px;
   font-weight: 600;
 }
+
+.page {
+  &__header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid $primary-color;
+
+    .title {
+      color: $primary-color;
+    }
+  }
+  &__body {
+    margin-top: 32px;
+  }
+}
