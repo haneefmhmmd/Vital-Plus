@@ -102,14 +102,14 @@ const RootMutationType = new GraphQLObjectType({
         try {
           const decodedToken = verifyAccessToken(context);
 
-          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+          if (decodedToken.roleId == 2) {
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
 
           const existingPatient = await Patient.findOne({ email: args.email });
-
+          console.log("Patient Added");
           if (existingPatient) {
             throw new Error("This patient already exists!");
           }
@@ -135,6 +135,7 @@ const RootMutationType = new GraphQLObjectType({
 
           return createdPatient;
         } catch (error) {
+          console.log(error);
           throw new Error(`Failed to add patient: ${error.message}`);
         }
       },

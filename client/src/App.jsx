@@ -4,6 +4,7 @@ import "./styles/index.scss";
 
 import Navbar from "./components/NavBar";
 import SideBar from "./components/SideBar";
+import AddPatient from "./pages/AddPatient";
 import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Borrow from "./pages/Borrow";
@@ -34,7 +35,7 @@ function App() {
             <Route path="/register" element={<Auth />} />
             <Route path="/app" element={<Books />} />
             <Route path="/members" element={<Members />} />
-            <Route path="/publishers" element={<Publishers />} />
+            <Route path="/add-patient" element={<AddPatient />} />
             <Route path="/borrow" element={<Borrow />} />
           </Routes>
         </section>

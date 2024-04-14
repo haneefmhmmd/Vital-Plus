@@ -20,12 +20,34 @@ export default function Auth() {
   const [mutateFunction] = useMutation(isLogin ? LOGIN_USER : REGISTER_USER);
 
   const onSubmit = async (data) => {
-    const { email, password, firstName, lastName } = data;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      dateOfBirth,
+      phoneNumber,
+      address,
+      postalCode,
+      country,
+      image,
+    } = data;
     try {
       const { data: responseData } = await mutateFunction({
         variables: isLogin
           ? { email, password }
-          : { firstName, lastName, email, password },
+          : {
+              firstName,
+              lastName,
+              dateOfBirth,
+              email,
+              password,
+              phoneNumber,
+              address,
+              postalCode,
+              country,
+              image,
+            },
       });
 
       if (!isLogin) {
@@ -51,32 +73,6 @@ export default function Auth() {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {!isLogin && (
-          <>
-            <div>
-              <label htmlFor="firstName">First Name</label>
-              <input
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
-                id="firstName"
-              />
-              {errors.firstName && (
-                <p role="alert">{errors.firstName.message}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                {...register("lastName", {
-                  required: "First name is required",
-                })}
-                id="lastName"
-              />
-              {errors.lastName && <p role="alert">{errors.lastName.message}</p>}
-            </div>
-          </>
-        )}
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -101,6 +97,101 @@ export default function Auth() {
           />
           {errors.password && <p role="alert">{errors.password.message}</p>}
         </div>
+        {!isLogin && (
+          <>
+            <div>
+              <label htmlFor="firstName">First Name</label>
+              <input
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
+                id="firstName"
+              />
+              {errors.firstName && (
+                <p role="alert">{errors.firstName.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                {...register("lastName", {
+                  required: "First name is required",
+                })}
+                id="lastName"
+              />
+              {errors.lastName && <p role="alert">{errors.lastName.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="dateOfBirth">Date of Birth</label>
+              <input
+                {...register("dateOfBirth", {
+                  required: "Date of Birth is required",
+                })}
+                id="dateOfBirth"
+                type="date"
+              />
+              {errors.dateOfBirth && (
+                <p role="alert">{errors.dateOfBirth.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                {...register("phoneNumber", {
+                  required: "Phone Number is required",
+                })}
+                id="phoneNumber"
+                type="tel"
+              />
+              {errors.phoneNumber && (
+                <p role="alert">{errors.phoneNumber.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="address">Address</label>
+              <input
+                {...register("address", { required: "Address is required" })}
+                id="address"
+                type="text"
+              />
+              {errors.address && <p role="alert">{errors.address.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="postalCode">Postal Code</label>
+              <input
+                {...register("postalCode", {
+                  required: "Postal Code is required",
+                })}
+                id="postalCode"
+                type="text"
+              />
+              {errors.postalCode && (
+                <p role="alert">{errors.postalCode.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="country">Country</label>
+              <input
+                {...register("country", { required: "Country is required" })}
+                id="country"
+                type="text"
+              />
+              {errors.country && <p role="alert">{errors.country.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="image">Profile Image</label>
+              <input
+                {...register("image", {
+                  required: "Profile Image is required",
+                })}
+                id="image"
+                type="url"
+              />
+              {errors.image && <p role="alert">{errors.image.message}</p>}
+            </div>
+          </>
+        )}
+
         <Button label={isLogin ? "Login" : "Register"} type="submit" />
       </form>
     </div>

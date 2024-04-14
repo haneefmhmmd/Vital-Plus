@@ -5,22 +5,40 @@ const client = new ApolloClient({
 });
 
 export const REGISTER_USER = gql`
-  mutation AddAdmin(
+  mutation AddNurse(
     $firstName: String!
     $lastName: String!
+    $dateOfBirth: String!
     $email: String!
     $password: String!
+    $phoneNumber: String!
+    $address: String!
+    $postalCode: String!
+    $country: String!
+    $image: String
   ) {
-    addAdmin(
+    addNurse(
       firstName: $firstName
       lastName: $lastName
+      dateOfBirth: $dateOfBirth
       email: $email
       password: $password
+      phoneNumber: $phoneNumber
+      address: $address
+      postalCode: $postalCode
+      country: $country
+      image: $image
     ) {
       id
       firstName
       lastName
+      dateOfBirth
       email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
     }
   }
 `;
@@ -31,6 +49,46 @@ export const LOGIN_USER = gql`
       userId
       roleId
       token
+    }
+  }
+`;
+
+export const ADD_PATIENT = gql`
+  mutation AddPatient(
+    $firstName: String!
+    $lastName: String!
+    $dateOfBirth: String!
+    $email: String!
+    $password: String!
+    $phoneNumber: String!
+    $address: String!
+    $postalCode: String!
+    $country: String!
+    $image: String
+    $emergencyContactName: String!
+    $emergencyContactNumber: String!
+    $emergencyContactRelationship: String!
+  ) {
+    addPatient(
+      firstName: $firstName
+      lastName: $lastName
+      dateOfBirth: $dateOfBirth
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+      address: $address
+      postalCode: $postalCode
+      country: $country
+      image: $image
+      emergencyContactName: $emergencyContactName
+      emergencyContactNumber: $emergencyContactNumber
+      emergencyContactRelationship: $emergencyContactRelationship
+    ) {
+      id
+      firstName
+      lastName
+      email
+      phoneNumber
     }
   }
 `;
