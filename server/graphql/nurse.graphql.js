@@ -87,7 +87,7 @@ const RootQueryType = new GraphQLObjectType({
         const decodedToken = verifyAccessToken(context);
 
         if (decodedToken.roleId !== 0) {
-          throw new AuthenticationError(
+          throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
         }
@@ -104,7 +104,7 @@ const RootQueryType = new GraphQLObjectType({
         const decodedToken = verifyAccessToken(context);
 
         if (decodedToken.roleId !== 0) {
-          throw new AuthenticationError(
+          throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
         }
@@ -124,7 +124,7 @@ const RootQueryType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -165,18 +165,18 @@ const RootQueryType = new GraphQLObjectType({
       type: NursePatientCountResponseType,
       description: "Get Patient Count by Nurse ID",
       args: {
-        id: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: async (parent, args, context) => {
         try {
           const decodedToken = verifyAccessToken(context);
 
-          if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+          if (decodedToken.roleId == 2) {
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
-          const nurseDetails = await Nurse.findById(args.id);
+          const nurseDetails = await Nurse.findOne({ email: args.email });
 
           if (!nurseDetails) {
             throw new Error("Nurse not found!");
@@ -221,7 +221,7 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (decodedToken.roleId !== 0) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -279,7 +279,7 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -333,7 +333,7 @@ const RootMutationType = new GraphQLObjectType({
         const decodedToken = verifyAccessToken(context);
 
         if (decodedToken.roleId !== 0) {
-          throw new AuthenticationError(
+          throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
         }
@@ -354,7 +354,7 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -389,7 +389,7 @@ const RootMutationType = new GraphQLObjectType({
           const decodedToken = verifyAccessToken(context);
 
           if (decodedToken.roleId !== 0 || decodedToken.roleId !== 1) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }

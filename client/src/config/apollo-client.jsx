@@ -1,6 +1,31 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-const client = new ApolloClient({
+import { ApolloClient, InMemoryCache, gql, createHttpLink } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
   uri: "http://localhost:3000/vitalplus",
+});
+
+const authLink = setContext((_, { headers }) => {
+
+  const user = localStorage.getItem('user');
+
+  if (user) {
+    const token = user.token;
+    return {
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${token}`
+      },
+    };
+  }
+
+  return {
+    headers,
+  }
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
@@ -49,6 +74,7 @@ export const LOGIN_USER = gql`
       userId
       roleId
       token
+      email
     }
   }
 `;
@@ -92,4 +118,13 @@ export const ADD_PATIENT = gql`
     }
   }
 `;
+
+export const GET_PATIENT_COUNT_BY_NURSE_ID = gql`
+  query GetPatientCountByNurseId($email: String!) {
+    getPatientCountByNurseId(email: $email) {
+      count
+    }
+  }
+`;
+
 export default client;

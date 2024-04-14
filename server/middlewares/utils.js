@@ -17,10 +17,10 @@ const verifyAccessToken = (context) => {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         return decodedToken;
       } catch (error) {
-        throw new AuthenticationError("Invalid/Expired token");
+        throw new Error("Invalid/Expired token");
       }
     }
-    throw new Error('Authentication token must be "Bearer [token]"');
+    throw new Error('n token must be "Bearer [token]"');
   }
   throw new Error("Authorization header must be provided");
 };

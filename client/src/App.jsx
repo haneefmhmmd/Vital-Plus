@@ -9,8 +9,9 @@ import Auth from "./pages/Auth";
 import Books from "./pages/Books";
 import Borrow from "./pages/Borrow";
 import Home from "./pages/Home";
-import Members from "./pages/Members";
+// import Members from "./pages/Members";
 import Publishers from "./pages/Publishers";
+import NurseDashboard from "./pages/NurseDashboard";
 
 const endpoints = ["/", "/login", "/register"];
 
@@ -34,9 +35,8 @@ function App() {
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/app" element={<Books />} />
-            <Route path="/members" element={<Members />} />
+            <Route path="/app/nurse" element={<NurseDashboard />} />
             <Route path="/add-patient" element={<AddPatient />} />
-            <Route path="/borrow" element={<Borrow />} />
           </Routes>
         </section>
       </main>

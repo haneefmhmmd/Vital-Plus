@@ -70,7 +70,7 @@ const RootQueryType = new GraphQLObjectType({
           decodedToken.roleId !== 1 ||
           decodedToken.roleId !== 2
         ) {
-          throw new AuthenticationError(
+          throw new Error(
             "Access denied! You are not authorized to access this resource"
           );
         }
@@ -103,7 +103,7 @@ const RootMutationType = new GraphQLObjectType({
             decodedToken.roleId !== 1 ||
             decodedToken.roleId !== 2
           ) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -158,7 +158,7 @@ const RootMutationType = new GraphQLObjectType({
             decodedToken.roleId !== 1 ||
             decodedToken.roleId !== 2
           ) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -197,7 +197,7 @@ const RootMutationType = new GraphQLObjectType({
             decodedToken.roleId !== 1 ||
             decodedToken.roleId !== 2
           ) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
@@ -231,7 +231,7 @@ const RootMutationType = new GraphQLObjectType({
             decodedToken.roleId !== 1 ||
             decodedToken.roleId !== 2
           ) {
-            throw new AuthenticationError(
+            throw new Error(
               "Access denied! You are not authorized to access this resource"
             );
           }
