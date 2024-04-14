@@ -10,8 +10,8 @@ import Home from "./pages/Home";
 import NurseDashboard from "./pages/NurseDashboard";
 import AddPatient from "./pages/nurse-dashboard/AddPatient";
 import AddVital from "./pages/nurse-dashboard/AddVital";
+import Consultation from "./pages/nurse-dashboard/Consultation";
 import Patient from "./pages/nurse-dashboard/Patient";
-
 const endpoints = ["/", "/login", "/register"];
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
             <Route path="/add-patient" element={<AddPatient />} />
             <Route path="/add-vital" element={<AddVital />} />
             <Route path="/patient/:id" element={<Patient />} />
+            <Route path="/consultation" element={<Consultation />} />
           </Routes>
         </section>
       </main>
