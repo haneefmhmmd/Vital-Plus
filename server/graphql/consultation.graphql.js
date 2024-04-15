@@ -24,21 +24,6 @@ const consultationType = new GraphQLObjectType({
   }),
 });
 
-const consultationPatientType = new GraphQLObjectType({
-  name: "consultationType",
-  description: "This represents a consultation object",
-  fields: () => ({
-    id: { type: GraphQLNonNull(GraphQLString) },
-    patient: {
-      firstName: { type: GraphQLNonNull(GraphQLString) },
-    },
-    nurse: { type: GraphQLNonNull(GraphQLString) },
-    date: { type: GraphQLNonNull(GraphQLString) },
-    possibleDiagnosis: { type: GraphQLNonNull(GraphQLString) },
-    suggestions: { type: GraphQLNonNull(GraphQLString) },
-  }),
-});
-
 // Root Query and Mutation definitions
 const RootQueryType = new GraphQLObjectType({
   name: "Query",
@@ -52,14 +37,9 @@ const RootQueryType = new GraphQLObjectType({
         patientId: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve: async (parent, args, context) => {
-        const decodedToken = verifyAccessToken(context);
-
-        if (decodedToken.roleId !== 0 && decodedToken.roleId !== 1) {
-          throw new Error(
-            "Access denied! You are not authorized to access this resource"
-          );
-        }
-        return await Consultation.find({ patient: args.patientId });
+        return await Consultation.find({
+          patient: args.patientId,
+        });
       },
     },
 
@@ -114,7 +94,7 @@ const RootMutationType = new GraphQLObjectType({
           const day = String(currentDate.getDate()).padStart(2, "0");
           const date = `${year}-${month}-${day}`;
 
-          const consultationWithDate = args.measurements.map((measurement) => ({
+          const consultationWithDate = args.map((measurement) => ({
             ...measurement,
             date: date,
           }));
