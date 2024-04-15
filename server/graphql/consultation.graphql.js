@@ -24,6 +24,21 @@ const consultationType = new GraphQLObjectType({
   }),
 });
 
+const consultationPatientType = new GraphQLObjectType({
+  name: "consultationType",
+  description: "This represents a consultation object",
+  fields: () => ({
+    id: { type: GraphQLNonNull(GraphQLString) },
+    patient: {
+      firstName: { type: GraphQLNonNull(GraphQLString) },
+    },
+    nurse: { type: GraphQLNonNull(GraphQLString) },
+    date: { type: GraphQLNonNull(GraphQLString) },
+    possibleDiagnosis: { type: GraphQLNonNull(GraphQLString) },
+    suggestions: { type: GraphQLNonNull(GraphQLString) },
+  }),
+});
+
 // Root Query and Mutation definitions
 const RootQueryType = new GraphQLObjectType({
   name: "Query",
@@ -99,12 +114,12 @@ const RootMutationType = new GraphQLObjectType({
           const day = String(currentDate.getDate()).padStart(2, "0");
           const date = `${year}-${month}-${day}`;
 
-          const measurementsWithDate = args.measurements.map((measurement) => ({
+          const consultationWithDate = args.measurements.map((measurement) => ({
             ...measurement,
             date: date,
           }));
 
-          const consultation = new Consultation(args);
+          const consultation = new Consultation(consultationWithDate);
           const createdConsultation = await consultation.save();
 
           if (!createdConsultation) {
