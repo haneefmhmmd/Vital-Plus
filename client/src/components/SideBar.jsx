@@ -24,7 +24,7 @@ export default function SideBar() {
           }`}
           id="Dashboard"
         >
-          <img src="/images/books.png" alt="image of book" />
+          <img src="/images/dashboard.png" alt="image of book" />
           <span>Dashboard</span>
         </Link>
         {user.roleId == 1 && (
@@ -35,7 +35,7 @@ export default function SideBar() {
             }`}
             id="add-patient"
           >
-            <img src="/images/members.png" alt="image of members" />
+            <img src="/images/add-patient.png" alt="image of members" />
             <span>Add Patient</span>
           </Link>
         )}
@@ -46,7 +46,7 @@ export default function SideBar() {
           }`}
           id="add-vital"
         >
-          <img src="/images/publishers.png" alt="image of publishers" />
+          <img src="/images/vital.png" alt="image of publishers" />
           <span>Add Vital</span>
         </Link>
         <Link
@@ -56,7 +56,7 @@ export default function SideBar() {
           }`}
           id="account"
         >
-          <img src="/images/borrow-book.png" alt="image of borrow book" />
+          <img src="/images/account.png" alt="image of borrow book" />
           <span>Account</span>
         </Link>
       </nav>
