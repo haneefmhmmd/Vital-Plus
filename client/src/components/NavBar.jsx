@@ -9,14 +9,15 @@ import useAuth from "../utils/useAuth";
 export default function Navbar() {
   const { user } = useAuth();
   const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
-
+  const location = useLocation();
   useEffect(() => {
+    console.log("isUserPresent", user.token);
     if (user && user.token) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  }, [user]);
+  }, [user, location.pathname]);
 
   const { removeUser } = useAuth();
   const handleLogout = () => {
