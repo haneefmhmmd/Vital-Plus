@@ -22,4 +22,12 @@
   &-item {
     font-size: 14px;
   }
+
+  &-link {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

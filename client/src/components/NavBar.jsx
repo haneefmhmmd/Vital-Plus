@@ -58,14 +58,24 @@ export default function Navbar() {
             </>
           )}
           {isLoggedIn && (
-            <li className="v-nav-item">
-              <Button
-                variant="secondary"
-                label="Logout"
-                size="sm"
-                onClick={handleLogout}
-              />
-            </li>
+            <>
+              <li className="v-nav-item">
+                <Link
+                  className="v-navbar-link"
+                  to={user.roleId == 1 ? "/nurse" : "/patient"}
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="v-nav-item">
+                <Button
+                  variant="secondary"
+                  label="Logout"
+                  size="sm"
+                  onClick={handleLogout}
+                />
+              </li>
+            </>
           )}
         </ul>
       </div>
