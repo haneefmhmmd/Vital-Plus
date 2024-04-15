@@ -1,43 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 import Button from "../../components/Button";
+import trainingData, {
+  symptomsList as options,
+} from "../../utils/trainingData";
+
+import { Typeahead } from "react-bootstrap-typeahead";
+// Import as a module in your JS
+import "react-bootstrap-typeahead/css/Typeahead.css";
+
 export default function Consultation() {
+  const [network, setNetwork] = useState(null);
+  const [multiSelections, setMultiSelections] = useState([]);
+  const [possibleDiagnosis, setPossibleDiagnosis] = useState([]);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  // const passageRef = useRef(null);
-  // const questionRef = useRef(null);
-  // const [answer, setAnswer] = useState();
-  // const [model, setModel] = useState(null);
-
-  // const loadModel = async () => {
-  //   const loadedModel = await qna.load();
-  //   setModel(loadedModel);
-  //   console.log("Model loaded.");
-  // };
-
-  // // 5. Handle Questions
-  // const answerQuestion = async (e) => {
-  //   if (e.which === 13 && model !== null) {
-  //     console.log("Question submitted.");
-  //     const passage = passageRef.current.value;
-  //     const question = questionRef.current.value;
-
-  //     const answers = await model.findAnswers(question, passage);
-  //     setAnswer(answers);
-  //     console.log(answers);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   loadModel();
-  // }, []);
-
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  useEffect(() => {
+    const newNetwork = new brain.NeuralNetwork();
+    newNetwork.train(trainingData);
+    setNetwork(newNetwork);
+    console.log("Network training completed!");
+  }, []);
+
+  const makePrediction = () => {
+    if (network) {
+      const symptoms = {};
+      multiSelections.map((selection) => {
+        symptoms[selection] = 1;
+      });
+      const prediction = network.run(symptoms);
+      const sortedPredictions = Object.entries(prediction).sort(
+        (a, b) => b[1] - a[1]
+      );
+      // Extract probabilities as an array
+      const listOfPredictions = sortedPredictions.map(
+        ([disease, probability]) => disease
+      );
+      setPossibleDiagnosis(listOfPredictions.slice(0, 3).join(", "));
+    } else {
+      console.log("Network not yet trained");
+    }
   };
 
   return (
@@ -51,11 +63,17 @@ export default function Consultation() {
             <label htmlFor="symptoms" className="input-label">
               Symptoms
             </label>
-            <select className="input" {...register("symptoms")} id="symptoms">
-              <option>Fever</option>
-              <option>Nausea</option>
-              <option>Vomitting</option>
-            </select>
+            <Typeahead
+              id="symptoms"
+              labelKey="name"
+              multiple
+              onChange={setMultiSelections}
+              options={options}
+              placeholder="Select symptoms..."
+              selected={multiSelections}
+              className="typehead"
+            />
+
             {errors.symptoms && (
               <p className="input-error">{errors.symptoms.message}</p>
             )}
@@ -64,15 +82,18 @@ export default function Consultation() {
             classNames="mb-3"
             variant="secondary"
             label="Generate Diagnosis Using AI"
+            onClick={makePrediction}
+            type="button"
           />
           <div className="input-wrapper">
             <label htmlFor="diagnosis" className="input-label">
-              Diagnosis
+              Possible Diagnosis
             </label>
             <input
               className="input"
               {...register("diagnosis")}
               id="diagnosis"
+              defaultValue={possibleDiagnosis}
             />
             {errors.diagnosis && (
               <p className="input-error">{errors.diagnosis.message}</p>
@@ -91,7 +112,7 @@ export default function Consultation() {
               <p className="input-error">{errors.suggestions.message}</p>
             )}
           </div>
-          <Button label="Submit" />
+          <Button label="Submit" type="submit" />
         </form>
       </div>
     </section>

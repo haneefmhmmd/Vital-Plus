@@ -33,3 +33,22 @@
     color: $red;
   }
 }
+
+.typehead {
+  margin-top: 8px;
+  .form-control {
+    border: 1px solid $primary-color;
+    border-radius: 8px;
+  }
+  .rbt-input-main::placeholder {
+    color: $primary-color;
+  }
+  .focus {
+    border-color: $primary-color !important;
+    box-shadow: 0 0 0 0.2rem rgba(38, 166, 154, 0.25) !important;
+  }
+  .rbt-token {
+    background-color: $primary-color;
+    color: $secondary-color;
+  }
+}
