@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import Button from "../../components/Button";
+import Toast from "../../components/Toast";
 import { ADD_CONSULTION } from "../../config/apollo-client";
 import trainingData, {
   symptomsList as options,
@@ -80,6 +81,10 @@ export default function Consultation() {
 
   return (
     <section className="page">
+      {error && <Toast message={error.message ? error.message : error} />}
+      {loading && (
+        <Toast message="Saving consultation details..." isErrorToast={false} />
+      )}
       <header className="page__header">
         <h1 className="title">Provide Consultation</h1>
       </header>
@@ -106,6 +111,7 @@ export default function Consultation() {
             label="Generate Diagnosis Using AI"
             onClick={makePrediction}
             type="button"
+            isDisabled={multiSelections.length == 0}
           />
           <div className="input-wrapper">
             <label htmlFor="diagnosis" className="input-label">
