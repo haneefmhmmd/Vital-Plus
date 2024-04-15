@@ -27,6 +27,10 @@ export default function AddPatient() {
       data.respiratoryRate = parseFloat(data.respiratoryRate);
       data.weight = parseFloat(data.weight);
 
+      if (!data.id) {
+        data.id = user.entityId;
+      }
+
       const symptomsArray = data.symptoms
         .split(",")
         .map((symptom) => symptom.trim());
@@ -71,7 +75,7 @@ export default function AddPatient() {
       </header>
       <div className="page__body">
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
-          {user.roleId != 2 && <SelectPatient />}
+          {(user.roleId == 0 || user.roleId == 1) && <SelectPatient />}
           {fields.map((field, index) => (
             <div className="input-wrapper" key={index}>
               <label className="input-label" htmlFor={field.name}>

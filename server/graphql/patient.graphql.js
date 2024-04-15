@@ -207,11 +207,11 @@ const RootMutationType = new GraphQLObjectType({
           );
 
           if (!updatedUser) {
-            throw new Error("Error Updating User!");
+            throw new Error("Error Updating Patient!");
           }
           return updatedPatient;
         } catch (error) {
-          throw new Error(`Failed to update nurse: ${error.message}`);
+          throw new Error(`Failed to update patient: ${error.message}`);
         }
       },
     },

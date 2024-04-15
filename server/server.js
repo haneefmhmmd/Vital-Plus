@@ -12,6 +12,7 @@ const vitalSchema = require("./graphql/vital.graphql");
 const nurseSchema = require("./graphql/nurse.graphql");
 const adminSchema = require("./graphql/admin.graphql");
 const authSchema = require("./graphql/auth.graphql");
+const consultationSchema = require("./graphql/consultation.graphql");
 
 mongoose
   .connect(process.env.DATABASE_URL, {
@@ -43,6 +44,7 @@ const stitchedSchema = stitchSchemas({
     { schema: nurseSchema },
     { schema: adminSchema },
     { schema: authSchema },
+    { schema: consultationSchema },
   ],
 });
 
