@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import { ADD_VITAL, GET_PATIENTS_BY_NURSE_ID } from "../config/apollo-client";
+import { symptomsList } from "../utils/trainingData";
 import useAuth from "../utils/useAuth";
-
 export default function AddPatient() {
   const {
     register,
@@ -14,6 +16,8 @@ export default function AddPatient() {
 
   const { user } = useAuth();
 
+  const [symptoms, setSymptoms] = useState([]);
+
   const patientsQuery = useQuery(GET_PATIENTS_BY_NURSE_ID, {
     variables: { id: user.entityId },
   });
@@ -21,6 +25,10 @@ export default function AddPatient() {
   const [mutateFunction] = useMutation(ADD_VITAL);
 
   const onSubmit = async (data) => {
+    if (!symptoms) {
+      return;
+    }
+
     try {
       data.bodyTemperature = parseFloat(data.bodyTemperature);
       data.bodyPressure = parseFloat(data.bodyPressure);
@@ -31,11 +39,7 @@ export default function AddPatient() {
         data.id = user.entityId;
       }
 
-      const symptomsArray = data.symptoms
-        .split(",")
-        .map((symptom) => symptom.trim());
-
-      const newData = { ...data, symptoms: symptomsArray };
+      const newData = { ...data, symptoms: symptoms.join(", ") };
 
       const response = await mutateFunction({ variables: newData });
 
@@ -88,12 +92,32 @@ export default function AddPatient() {
                 type={field.type}
               />
               {errors[field.name] && (
-                <p className="input-errpr" role="alert">
+                <p className="input-error" role="alert">
                   {errors[field.name].message}
                 </p>
               )}
             </div>
           ))}
+          <div className="input-wrapper">
+            <label className="input-label" htmlFor="symptoms">
+              Symptoms
+            </label>
+            <Typeahead
+              id="symptoms"
+              labelKey="name"
+              multiple
+              onChange={setSymptoms}
+              options={symptomsList}
+              placeholder="Select symptoms..."
+              selected={symptoms}
+              className="typehead"
+            />
+            {symptoms.length == 0 && (
+              <p className="input-error" role="alert">
+                Symptoms are required
+              </p>
+            )}
+          </div>
           <Button label="Add Vital" type="submit" />
         </form>
       </div>
@@ -125,12 +149,5 @@ const fields = [
     type: "number",
     name: "weight",
     validators: { required: "Weight is required" },
-  },
-  {
-    label: "Symptoms",
-    type: "text",
-    name: "symptoms",
-    placeholder: "For now, seperate by ,",
-    validators: { required: "Symptoms are required" },
   },
 ];

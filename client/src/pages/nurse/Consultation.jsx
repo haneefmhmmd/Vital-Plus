@@ -99,10 +99,6 @@ export default function Consultation() {
               selected={multiSelections}
               className="typehead"
             />
-
-            {errors.symptoms && (
-              <p className="input-error">{errors.symptoms.message}</p>
-            )}
           </div>
           <Button
             classNames="mb-3"
