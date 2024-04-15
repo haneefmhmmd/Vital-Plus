@@ -1,28 +1,54 @@
+import { useMutation } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import Button from "../../components/Button";
+import { ADD_CONSULTION } from "../../config/apollo-client";
 import trainingData, {
   symptomsList as options,
 } from "../../utils/trainingData";
-
-import { Typeahead } from "react-bootstrap-typeahead";
-// Import as a module in your JS
-import "react-bootstrap-typeahead/css/Typeahead.css";
+import userAuth from "../../utils/useAuth";
 
 export default function Consultation() {
   const [network, setNetwork] = useState(null);
   const [multiSelections, setMultiSelections] = useState([]);
-  const [possibleDiagnosis, setPossibleDiagnosis] = useState([]);
-
+  const { user } = userAuth();
   const {
     register,
     formState: { errors },
+    setValue,
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+  const [addConstationMutation, { loading, error }] =
+    useMutation(ADD_CONSULTION);
+
+  const onSubmit = async (data) => {
+    const nurseId = user.entityId;
+    const patientId = id;
+    const consultationData = {
+      patient: patientId,
+      nurse: nurseId,
+      date: new Date(),
+      ...data,
+    };
+    try {
+      const { data: responseData } = await addConstationMutation({
+        variables: consultationData,
+      });
+      if (responseData) {
+        console.log("Successfully saved", responseData);
+        navigate(`/nurse/patient/${id}`);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +72,7 @@ export default function Consultation() {
       const listOfPredictions = sortedPredictions.map(
         ([disease, probability]) => disease
       );
-      setPossibleDiagnosis(listOfPredictions.slice(0, 3).join(", "));
+      setValue("possibleDiagnosis", listOfPredictions.slice(0, 3).join(", "));
     } else {
       console.log("Network not yet trained");
     }
@@ -91,12 +117,13 @@ export default function Consultation() {
             </label>
             <input
               className="input"
-              {...register("diagnosis")}
-              id="diagnosis"
-              defaultValue={possibleDiagnosis}
+              {...register("possibleDiagnosis", {
+                required: "Field cannot be empty!",
+              })}
+              id="possibleDiagnosis"
             />
-            {errors.diagnosis && (
-              <p className="input-error">{errors.diagnosis.message}</p>
+            {errors.possibleDiagnosis && (
+              <p className="input-error">{errors.possibleDiagnosis.message}</p>
             )}
           </div>
           <div className="input-wrapper">
@@ -105,7 +132,9 @@ export default function Consultation() {
             </label>
             <textarea
               className="input input--textarea"
-              {...register("suggestions")}
+              {...register("suggestions", {
+                required: "Field cannot be empty!",
+              })}
               id="suggestions"
             ></textarea>
             {errors.suggestions && (

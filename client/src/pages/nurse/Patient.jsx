@@ -74,7 +74,7 @@ export default function Patient() {
             variant="secondary"
             label="Provide Consultation"
             elementType="link"
-            href="/nurse/consultation"
+            href={`/nurse/${id}/consultation`}
           />
         </div>
       </header>

@@ -46,7 +46,7 @@ function App() {
             <Route path="/add-vital" element={<AddVital />} />
             <Route path="/nurse/add-patient" element={<AddPatient />} />
             <Route path="/nurse/patient/:id" element={<Patient />} />
-            <Route path="/nurse/consultation" element={<Consultation />} />
+            <Route path="/nurse/:id/consultation" element={<Consultation />} />
           </Routes>
         </section>
       </main>

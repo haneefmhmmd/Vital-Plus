@@ -349,3 +349,27 @@ export const GET_VITALS_BY_PATIENT_ID = gql`
     }
   }
 `;
+
+export const ADD_CONSULTION = gql`
+  mutation AddConsultion(
+    $patient: String!
+    $nurse: String!
+    $date: String!
+    $possibleDiagnosis: String!
+    $suggestions: String!
+  ) {
+    addConsultation(
+      patient: $patient
+      nurse: $nurse
+      date: $date
+      possibleDiagnosis: $possibleDiagnosis
+      suggestions: $suggestions
+    ) {
+      patient
+      nurse
+      date
+      possibleDiagnosis
+      suggestions
+    }
+  }
+`;
