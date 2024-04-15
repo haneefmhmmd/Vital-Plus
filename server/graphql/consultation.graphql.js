@@ -7,6 +7,7 @@ const {
 } = require("graphql");
 
 const Consultation = require("../models/consultation.model");
+const Patient = require("../models/patient.model");
 const { verifyAccessToken } = require("../middlewares/utils");
 
 // Consultation Type definition
@@ -79,7 +80,6 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         patient: { type: GraphQLNonNull(GraphQLString) },
         nurse: { type: GraphQLNonNull(GraphQLString) },
-        date: { type: GraphQLNonNull(GraphQLString) },
         possibleDiagnosis: { type: GraphQLNonNull(GraphQLString) },
         suggestions: { type: GraphQLNonNull(GraphQLString) },
       },
@@ -92,6 +92,17 @@ const RootMutationType = new GraphQLObjectType({
               "Access denied! You are not authorized to access this resource"
             );
           }
+
+          const currentDate = new Date();
+          const year = currentDate.getFullYear();
+          const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+          const day = String(currentDate.getDate()).padStart(2, "0");
+          const date = `${year}-${month}-${day}`;
+
+          const measurementsWithDate = args.measurements.map((measurement) => ({
+            ...measurement,
+            date: date,
+          }));
 
           const consultation = new Consultation(args);
           const createdConsultation = await consultation.save();
