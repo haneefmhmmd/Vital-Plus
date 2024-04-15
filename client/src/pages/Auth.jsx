@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useEffect } from "react";
 import Button from "../components/Button";
+import Toast from "../components/Toast";
 import { LOGIN_USER, REGISTER_USER } from "../config/apollo-client";
 import { saveToLS } from "../utils/localStorage.util";
 import useAuth from "../utils/useAuth";
@@ -11,14 +12,16 @@ import useAuth from "../utils/useAuth";
 export default function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
-  const isLogin = location.pathname === "/login"; // Check if it's the login page
+  const isLogin = location.pathname === "/login";
   const { user } = useAuth();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [mutateFunction] = useMutation(isLogin ? LOGIN_USER : REGISTER_USER);
+  const [mutateFunction, { loading, error }] = useMutation(
+    isLogin ? LOGIN_USER : REGISTER_USER
+  );
 
   const onSubmit = async (data) => {
     const {
@@ -83,6 +86,8 @@ export default function Auth() {
 
   return (
     <div className="auth">
+      {error && <Toast message={error.message} />}
+
       <div className="form-container">
         <h1>{isLogin ? "Login" : "Sign Up"}</h1>
         <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>

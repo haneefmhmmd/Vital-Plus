@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Toast({ message, isErrorToast = true }) {
+  // useEffect(() => {}, []);
+
   const handleToastClose = (e) => {
-    e.currentTarget.closest(".toast").remove();
+    const parentEle = e.currentTarget.closest(".toast");
+    console.log(parentEle);
+    if (parentEle) {
+      parentEle.remove();
+    }
   };
 
   return (
@@ -14,11 +20,10 @@ export default function Toast({ message, isErrorToast = true }) {
       >
         <div className="d-flex">
           <div className="toast-body">{message}</div>
-          <button
+          {/* <button
             type="button"
             className="btn-close btn-close-white me-2 m-auto"
-            onClick={handleToastClose}
-          ></button>
+          ></button> */}
         </div>
       </div>
     )

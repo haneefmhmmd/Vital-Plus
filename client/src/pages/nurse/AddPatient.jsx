@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
+import Toast from "../../components/Toast";
 import {
   ADD_PATIENT,
   ASSIGN_PATIENT_TO_NURSE,
@@ -16,25 +17,34 @@ export default function AddPatient() {
   } = useForm();
   const { user } = useAuth();
   const [patientId, setPatientId] = useState(null);
-  const [mutateFunction] = useMutation(ADD_PATIENT);
-  const [assignPatientMutateFunc] = useMutation(ASSIGN_PATIENT_TO_NURSE);
+  const [mutateFunction, { error: errorSaving }] = useMutation(ADD_PATIENT);
+  const [
+    assignPatientMutateFunc,
+    { loading: assigningPatient, error: errorAssigning },
+  ] = useMutation(ASSIGN_PATIENT_TO_NURSE);
+  const [isSaving, setIsSaving] = useState(false);
   const onSubmit = async (data) => {
+    setIsSaving(true);
     try {
       const { data: responseData } = await mutateFunction({ variables: data });
       setPatientId(responseData.addPatient.id);
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handlePatientAssignment = async () => {
     try {
+      setIsSaving(true);
       const { data } = await assignPatientMutateFunc({
         variables: { nurseId: user.entityId, patientId: [patientId] },
       });
       if (data) {
         setPatientId(null);
       }
+      setIsSaving(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -42,6 +52,8 @@ export default function AddPatient() {
 
   return (
     <section className="page">
+      {isSaving && <Toast message="Saving details..." isErrorToast={false} />}
+      {errorSaving && <Toast message={errorSaving.message} />}
       <header className="page__header">
         <h1 className="title">Add New Patient</h1>
       </header>
