@@ -91,7 +91,7 @@ export default function Members() {
 
         <div className="highlights">
           <h2 className="highlights__title">
-            {lastAddedPatientResponse.firstName}
+            {patients[patients.length-1].firstName}
           </h2>
           <p className="highlights__desc">Last Added Patient</p>
         </div>
@@ -105,7 +105,6 @@ export default function Members() {
         <table className="table table-borderless table-hover align-middle">
           <thead>
             <tr className="border-bottom">
-              <th>ID</th>
               <th>Name</th>
               <th>Date of Birth</th>
               <th>Email</th>
@@ -117,7 +116,6 @@ export default function Members() {
           <tbody>
             {patients.map((patient) => (
               <tr key={patient._id}>
-                <td>{patient._id}</td>
                 <td>
                   {patient.firstName} {patient.lastName}
                 </td>

@@ -249,13 +249,6 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          const decodedToken = verifyAccessToken(context);
-
-          if (decodedToken.roleId == 2) {
-            throw new Error(
-              "Access denied! You are not authorized to access this resource"
-            );
-          }
           const existingNurse = await Nurse.findOne({ email: args.email });
 
           if (existingNurse) {
