@@ -1,7 +1,8 @@
 {
   "name": "vitalplus_server",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "build": "netlify deploy --prod"
   },
   "dependencies": {
     "@graphql-tools/stitch": "^9.1.0",
@@ -17,7 +18,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
+    "netlify-cli": "^17.22.1",
+    "netlify-lambda": "^2.0.16",
     "nodemon": "^3.1.0",
+    "serverless-http": "^3.2.0",
     "validator": "^13.11.0"
   }
 }
