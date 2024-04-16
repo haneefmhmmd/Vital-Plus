@@ -1,2 +1,3 @@
 # Vital+
-👉🏽[Click here to Visit our project site](https://main--vital-plus.netlify.app/)
+👇🏽Click here to Visit our project site
+**[Vital+](https://main--vital-plus.netlify.app/)**🚀
