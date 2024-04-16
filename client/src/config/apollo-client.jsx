@@ -8,7 +8,7 @@ import { setContext } from "@apollo/client/link/context";
 import { fetchFromLS } from "../utils/localStorage.util";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3000/vitalplus",
+  uri: "https://vital-plus.onrender.com/vitalplus",
 });
 
 const authLink = setContext((_, { headers }) => {
