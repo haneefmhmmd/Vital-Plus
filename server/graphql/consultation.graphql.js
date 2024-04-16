@@ -94,10 +94,10 @@ const RootMutationType = new GraphQLObjectType({
           const day = String(currentDate.getDate()).padStart(2, "0");
           const date = `${year}-${month}-${day}`;
 
-          const consultationWithDate = args.map((measurement) => ({
-            ...measurement,
+          const consultationWithDate = {
+            ...args,
             date: date,
-          }));
+          };
 
           const consultation = new Consultation(consultationWithDate);
           const createdConsultation = await consultation.save();
