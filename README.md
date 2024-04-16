@@ -16,6 +16,7 @@ Vital Plus is an innovative application designed to assist nurses in continuousl
 
 - **React.js**: Frontend development framework for building the user interface.
 - **Node.js**: Backend JavaScript runtime environment for server-side logic.
+- **GraphQL**: Query language for APIs, used for efficient data fetching in Vital Plus.
 - **Brain.js**: Neural network library for implementing machine learning algorithms.
 - **Bootstrap 5**: Frontend component library for responsive and mobile-first design.
 
