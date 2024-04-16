@@ -26,13 +26,27 @@ Check out the live demo of Vital Plus hosted on Netlify: [Vital Plus Demo](https
 
 ## Get Started
 
-To get started with Vital Plus locally, follow these steps:
+### Frontend
+
+To get started with the frontend locally, follow these steps:
 
 1. Clone this repository.
 2. Navigate to the project directory.
-3. Install dependencies using `npm install`.
-4. Start the development server using `npm start`.
-5. Access the application at `http://localhost:3000`.
+3. Navigate to the `client` directory.
+4. Install frontend dependencies using `npm install`.
+5. Start the frontend development server using `npm start`.
+6. Access the frontend application at `http://localhost:5173`.
+
+### Backend
+
+To get started with the backend locally, follow these steps:
+
+1. Clone this repository.
+2. Navigate to the project directory.
+3. Navigate to the `server` directory.
+4. Install backend dependencies using `npm install`.
+5. Start the backend development server using `npm start`.
+6. Access the backend application at `http://localhost:3000`.
 
 
-**Note:** Vital Plus is a project developed by Dilshan, Haneef, Dhruvil and Deanne of Centennial College.
+**Note:** Vital Plus is an academic project developed by Dilshan, Haneef, Dhruvil and Deanne of Centennial College.
