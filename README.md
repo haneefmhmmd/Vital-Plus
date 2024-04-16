@@ -1,4 +1,4 @@
-# Vital Plus
+# [Vital Plus](https://vital-plus.netlify.app/)
 
 ![https://example.com/vital-plus-logo.png](https://github.com/Dhruvil-Rangani/vital_plus/blob/main/client/public/images/logo/logofull.png)
 
