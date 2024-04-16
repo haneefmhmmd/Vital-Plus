@@ -34,8 +34,7 @@ export default function useAuth() {
   const navigate = useNavigate();
   useEffect(() => {
     const retrievedUser = fetchFromLS("user");
-
-    console.log(openApis.includes(location.pathname));
+    console.log("Local user: ", retrievedUser);
     if (retrievedUser) {
       setIsLoggedIn(true);
       setUser(retrievedUser);

@@ -12,6 +12,7 @@ import Button from "../../components/Button";
 
 export default function Members() {
   const { user } = useAuth();
+  console.log(user.entityId);
 
   const patientCountQuery = useQuery(GET_PATIENT_COUNT_BY_NURSE_ID, {
     variables: { id: user.entityId },
@@ -91,7 +92,9 @@ export default function Members() {
 
         <div className="highlights">
           <h2 className="highlights__title">
-            {patients[patients.length-1].firstName}
+            {patients.length !== 0
+              ? patients[patients.length - 1].firstName
+              : "None"}
           </h2>
           <p className="highlights__desc">Last Added Patient</p>
         </div>
