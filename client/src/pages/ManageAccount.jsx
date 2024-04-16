@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Button from "../components/Button";
+import Toast from "../components/Toast";
 import {
   GET_NURSE_BY_ID,
   GET_PATIENT_BY_ID,
@@ -30,9 +31,10 @@ export default function ManageAccount() {
     variables: { id: user.entityId },
   });
 
-  const [updateUserMutation] = useMutation(
-    user.roleId == 1 ? UPDATE_NURSE_BY_ID : UPDATE_PATIENT_BY_ID
-  );
+  const [
+    updateUserMutation,
+    { loading: updatingUser, error: errorUpdatingUser },
+  ] = useMutation(user.roleId == 1 ? UPDATE_NURSE_BY_ID : UPDATE_PATIENT_BY_ID);
 
   useEffect(() => {
     if (userData && user.roleId == 1) {
@@ -80,6 +82,10 @@ export default function ManageAccount() {
 
   return (
     <section className="page">
+      {updatingUser && (
+        <Toast message="Updating user details..." isErrorToast={false} />
+      )}
+      {errorUpdatingUser && <Toast message="Error updating user details!" />}
       <header className="page__header">
         <h1 className="title">Manage Account</h1>
       </header>
