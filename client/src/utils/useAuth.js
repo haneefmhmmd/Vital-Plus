@@ -19,7 +19,7 @@ export const user = {
 };
 
 export default function useAuth() {
-  const { isLoggedIn } = useContext(AppContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
 
   const location = useLocation();
   const openApis = ["/", "/login", "/register"];
@@ -37,8 +37,10 @@ export default function useAuth() {
 
     console.log(openApis.includes(location.pathname));
     if (retrievedUser) {
+      setIsLoggedIn(true);
       setUser(retrievedUser);
     } else if (!openApis.includes(location.pathname)) {
+      setIsLoggedIn(false);
       navigate("/login");
     }
   }, [isLoggedIn]);

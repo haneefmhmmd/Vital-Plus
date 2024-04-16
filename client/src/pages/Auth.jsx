@@ -2,7 +2,8 @@ import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../App";
 import Button from "../components/Button";
 import Toast from "../components/Toast";
 import { LOGIN_USER, REGISTER_USER } from "../config/apollo-client";
@@ -13,7 +14,6 @@ export default function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
   const isLogin = location.pathname === "/login";
-  const { user } = useAuth();
   const {
     register,
     formState: { errors },
@@ -22,6 +22,8 @@ export default function Auth() {
   const [mutateFunction, { loading, error }] = useMutation(
     isLogin ? LOGIN_USER : REGISTER_USER
   );
+
+  const { setIsLoggedIn } = useContext(AppContext);
 
   const onSubmit = async (data) => {
     const {
@@ -59,13 +61,21 @@ export default function Auth() {
       }
 
       if (isLogin && responseData && responseData.login) {
+        const user = {};
         user.entityId = responseData.login.entityId;
         user.userId = responseData.login.userId;
         user.roleId = responseData.login.roleId;
         user.email = responseData.login.email;
         user.token = responseData.login.token;
         saveToLS("user", user);
-        navigateToDashboard();
+
+        setIsLoggedIn(true);
+        if (user.roleId == 1) {
+          navigate("/nurse");
+        } else if (user.roleId == 2) {
+          console.log("Navigating...: ", user.roleId);
+          navigate("/patient");
+        }
       }
     } catch (error) {
       console.error(
@@ -76,10 +86,10 @@ export default function Auth() {
   };
 
   const navigateToDashboard = (roleId) => {
-    if (user.roleId == 1) {
+    if (roleId == 1) {
       navigate("/nurse");
-    } else if (user.roleId == 2) {
-      console.log("Navigating...: ", user.roleId);
+    } else if (roleId == 2) {
+      console.log("Navigating...: ", roleId);
       navigate("/patient");
     }
   };

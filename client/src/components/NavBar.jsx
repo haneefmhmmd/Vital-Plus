@@ -11,12 +11,12 @@ export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
   const location = useLocation();
   useEffect(() => {
-    console.log("isUserPresent", user.token);
-    if (user && user.token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    // console.log("isUserPresent", user.token);
+    // if (user && user.token) {
+    //   setIsLoggedIn(true);
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
   }, [user, location.pathname]);
 
   const { removeUser } = useAuth();
