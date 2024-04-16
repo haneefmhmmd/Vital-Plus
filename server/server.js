@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
-const serverless = require("serverless-http");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { stitchSchemas } = require("@graphql-tools/stitch");
@@ -66,5 +65,3 @@ app.listen(process.env.PORT, () => {
   );
   console.log(`VitalPlus @ http://localhost:${process.env.PORT}/vitalplus`);
 });
-
-module.exports.handler = serverless(app);
