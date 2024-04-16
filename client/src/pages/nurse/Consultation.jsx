@@ -36,7 +36,6 @@ export default function Consultation() {
     const consultationData = {
       patient: patientId,
       nurse: nurseId,
-      date: new Date(),
       ...data,
     };
     try {

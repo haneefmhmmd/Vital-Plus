@@ -367,7 +367,6 @@ export const ADD_CONSULTION = gql`
     ) {
       patient
       nurse
-      date
       possibleDiagnosis
       suggestions
     }
@@ -375,12 +374,8 @@ export const ADD_CONSULTION = gql`
 `;
 
 export const GET_CONSULTATIONS_BY_PATIENT = gql`
-  query getConsultationsByPatientId(
-    $id: String!
-  ) {
-    getConsultationsByPatientId(
-      patientId: $id
-    ) {
+  query getConsultationsByPatientId($id: String!) {
+    getConsultationsByPatientId(patientId: $id) {
       patient
       nurse
       date
