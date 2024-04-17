@@ -382,3 +382,32 @@ export const GET_CONSULTATIONS_BY_PATIENT = gql`
     }
   }
 `;
+
+export const GET_ALL_NURSES = gql`
+  query getAllNurses{
+    nurses{
+      id
+      firstName
+      lastName
+      dateOfBirth
+      email
+      phoneNumber
+      address
+      postalCode
+      country
+      image
+      patients
+    }
+  }
+`;
+
+export const GET_ADMIN_BY_ID = gql`
+  query getAdminById($id: String!) {
+    admin(id: $id){
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+`;

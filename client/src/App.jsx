@@ -14,6 +14,8 @@ import NurseDashboard from "./pages/nurse/NurseDashboard";
 import Patient from "./pages/nurse/Patient";
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import useAuth from "./utils/useAuth";
+import AdminDashboard from './pages/admin/AdminDashboard';
+import Fitness from './pages/patient/Fitness';
 
 const endpoints = ["/", "/login", "/register"];
 
@@ -41,12 +43,14 @@ function App() {
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/patient" element={<PatientDashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/nurse" element={<NurseDashboard />} />
             <Route path="/manage-account" element={<ManageAccount />} />
             <Route path="/add-vital" element={<AddVital />} />
             <Route path="/nurse/add-patient" element={<AddPatient />} />
             <Route path="/nurse/patient/:id" element={<Patient />} />
             <Route path="/nurse/:id/consultation" element={<Consultation />} />
+            <Route path="/fitness" element={<Fitness />} />
           </Routes>
         </section>
       </main>

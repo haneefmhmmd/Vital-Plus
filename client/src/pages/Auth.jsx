@@ -43,17 +43,17 @@ export default function Auth() {
         variables: isLogin
           ? { email, password }
           : {
-              firstName,
-              lastName,
-              dateOfBirth,
-              email,
-              password,
-              phoneNumber,
-              address,
-              postalCode,
-              country,
-              image,
-            },
+            firstName,
+            lastName,
+            dateOfBirth,
+            email,
+            password,
+            phoneNumber,
+            address,
+            postalCode,
+            country,
+            image,
+          },
       });
 
       if (!isLogin) {
@@ -75,6 +75,8 @@ export default function Auth() {
         } else if (user.roleId == 2) {
           console.log("Navigating...: ", user.roleId);
           navigate("/patient");
+        } else if (user.roleId == 0) {
+          navigate("/admin");
         }
       }
     } catch (error) {
@@ -91,6 +93,8 @@ export default function Auth() {
     } else if (roleId == 2) {
       console.log("Navigating...: ", roleId);
       navigate("/patient");
+    } else if (user.roleId == 0) {
+      navigate("/admin");
     }
   };
 
