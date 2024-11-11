@@ -5,6 +5,8 @@
 
 Vital Plus is an innovative application designed to assist nurses in continuously monitoring and supporting patients, especially during the crucial first weeks after hospital discharge. Leveraging the power of neural networks provided by Brain.js, Vital Plus empowers nurses to diagnose diseases through patient-provided symptoms.
 
+**Note:** Vital Plus is an academic project developed by Dilshan, Haneef, Dhruvil and Deanne of Centennial College.
+
 ## Features
 
 - **Continuous Monitoring**: Vital Plus enables nurses to monitor patients' health status continuously, ensuring timely intervention when necessary.
@@ -47,6 +49,3 @@ To get started with the backend locally, follow these steps:
 4. Install backend dependencies using `npm install`.
 5. Start the backend development server using `npm start`.
 6. Access the backend application at `http://localhost:3000`.
-
-
-**Note:** Vital Plus is an academic project developed by Dilshan, Haneef, Dhruvil and Deanne of Centennial College.
